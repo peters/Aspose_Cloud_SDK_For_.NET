@@ -1,5 +1,0 @@
-C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\Saaspose.SDK-for-.NET-master\Saaspose.SDK\bin\Debug\AsposeCloud.SDK.dll
-C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\Saaspose.SDK-for-.NET-master\Saaspose.SDK\bin\Debug\AsposeCloud.SDK.pdb
-C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\Saaspose.SDK-for-.NET-master\Saaspose.SDK\obj\Debug\AsposeCloud.SDK.dll
-C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\Saaspose.SDK-for-.NET-master\Saaspose.SDK\obj\Debug\AsposeCloud.SDK.pdb
-C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\Saaspose.SDK-for-.NET-master\Saaspose.SDK\obj\Debug\AsposeCloud.csprojResolveAssemblyReference.cache
