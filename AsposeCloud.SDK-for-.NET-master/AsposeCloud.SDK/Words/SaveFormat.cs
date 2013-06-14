@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Aspose.Cloud.Words
+{
+
+    /// <summary>
+    /// Status code of file conversion  
+    /// </summary>
+    public enum ConversionStatus { OK = 0, Unknown }
+
+    /// <summary>
+    /// Represents supported conversion types
+    /// </summary>
+    public enum SaveFormat
+    {
+        Doc,
+        Dot,
+        Docx,
+        Docm,
+        Dotx,
+        Dotm,
+        FlatOpc,
+        Rtf,
+        WordML,
+        Pdf,
+        odt,
+        ott,
+        txt,
+        mhtml,
+        epub,
+        xps,
+        swf,
+        tiff,
+        svg,
+        jpeg,
+        bmp,
+        png
+    }
+
+    /// <summary>
+    /// Represents supported extract drawing object
+    /// </summary>
+    public enum DrawingObjectsRenderFormat
+    {
+        jpeg,
+        tiff,
+        png,
+        bmp
+    }
+}
+
