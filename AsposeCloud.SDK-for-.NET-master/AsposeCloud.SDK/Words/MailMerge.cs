@@ -225,5 +225,44 @@ namespace Aspose.Cloud.Words
                 throw ex;
             }
         }
+        public void PutMailMerege(string FileName, string strXML, string documentFolder = "")
+        {
+            try
+            {
+                //build URI to get Image
+                string strURI = Product.BaseProductUri + "/words/" + FileName + "/executeMailMerge?withRegions=False" +
+                    (documentFolder == "" ? "" : "?folder=" + documentFolder);
+
+                string signedURI = Utils.Sign(strURI);
+
+                string outputFileName = null;
+                Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strXML, "xml");
+                StreamReader reader = new StreamReader(responseStream);
+                //further process JSON response
+                string strResponse = reader.ReadToEnd();
+                MemoryStream ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(strResponse));
+                XPathDocument xPathDoc = new XPathDocument(ms);
+                XPathNavigator navigator = xPathDoc.CreateNavigator();
+                //get File Name
+                XPathNodeIterator nodes = navigator.Select("/SaaSposeResponse/Document/FileName");
+                nodes.MoveNext();
+                //build URI
+                strURI = Product.BaseProductUri + "/words/" + nodes.Current.InnerXml + "?format=pdf";
+                //sign URI
+                signedURI = Utils.Sign(strURI);
+                //get response stream
+                responseStream = Utils.ProcessCommand(signedURI, "GET");
+                using (Stream fileStream = System.IO.File.OpenWrite(outputFileName))
+                {
+                    Utils.CopyStream(responseStream, fileStream);
+                }
+                responseStream.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

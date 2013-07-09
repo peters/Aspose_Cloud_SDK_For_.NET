@@ -360,6 +360,148 @@ namespace Aspose.Cloud.Words
                 return false;
             }
         }
+        public Boolean PostBookMark(string Name, string Text)
+        {
+            try
+            {
+                //build URI to get Image
+                string strURI = Product.BaseProductUri + "/words/" + FileName + "/bookmarks/" + Name;
 
+                string signedURI = Utils.Sign(strURI);
+
+                //serialize the JSON request content
+                BookmarkData bookmarkData = new BookmarkData();
+                bookmarkData.Name = Name;
+                bookmarkData.Text = Text;
+
+                string strJSON = JsonConvert.SerializeObject(bookmarkData);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "POST", strJSON);
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strResponse = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject pJSON = JObject.Parse(strResponse);
+
+                BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(pJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public string GetBookMarkData(string Name)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Product.BaseProductUri + "/words/" + FileName;
+                strURI += "/bookmarks/" + Name;
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "GET"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BookmarkResponse bookmarkResponse = JsonConvert.DeserializeObject<BookmarkResponse>(parsedJSON.ToString());
+
+                //return document property
+                return bookmarkResponse.bookmark.Text;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public int splitDocument(string format, string folder, int from, int to)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Product.BaseProductUri + "/words/" + FileName;
+                strURI += "/split?" +
+                    (format == "" ? "" : "format=" + format) +
+                    (folder == "" ? "" : "&folder=" + folder) +
+                    (from == 0 ? "" : "&from=" + from.ToString()) +
+                    (to == 0 ? "" : "&to=" + to.ToString());
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST", "", ""));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                SplitResultResponse splitResultResponse = JsonConvert.DeserializeObject<SplitResultResponse>(parsedJSON.ToString());
+
+                return splitResultResponse.SplitResult.Pages.Count;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public bool SaveAsTiff(string resultFile, bool useAntiAliasing, bool useHighQualityRendering, int pageCount, int pageIndex, int resolution, string tiffCompression, string folder)
+        {
+            try
+            {
+                //build URI to get Image
+                string strURI = Product.BaseProductUri + "/words/" + FileName + "/SaveAs/tiff?";
+
+                strURI += "resultFile=" + resultFile + "&useAntiAliasing=" + (useAntiAliasing ? "True" : "False") + "&useHighQualityRendering=" + (useHighQualityRendering ? "True" : "False") +
+                    "&pageCount=" + pageCount.ToString() + "&pageIndex=" + pageIndex.ToString() + "&resolution=" + resolution + "&tiffCompression=" + tiffCompression + "&folder=" + folder;
+
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "PUT");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strResponse = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject pJSON = JObject.Parse(strResponse);
+
+                BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(pJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

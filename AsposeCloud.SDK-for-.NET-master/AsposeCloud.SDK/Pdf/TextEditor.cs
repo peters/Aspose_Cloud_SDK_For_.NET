@@ -208,6 +208,33 @@ namespace Aspose.Cloud.Pdf
         }
 
         /// <summary>
+        /// Gets an individual segment
+        /// </summary>
+        public string GetSegment(int pageNumber,int fragmentNumber,int segmentNumber)
+        {
+            //build URI to get page count
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments"+fragmentNumber.ToString()+"/segments"+segmentNumber.ToString();
+            string signedURI = Utils.Sign(strURI);
+
+            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+            StreamReader reader = new StreamReader(responseStream);
+            string strJSON = reader.ReadToEnd();
+
+
+            //Parse the json string to JObject
+            JObject parsedJSON = JObject.Parse(strJSON);
+
+
+            //Deserializes the JSON to a object. 
+            TextItemsResponse textItemsResponse = JsonConvert.DeserializeObject<TextItemsResponse>(parsedJSON.ToString());
+            if (textItemsResponse.TextItems.List.Count > 0)
+                return textItemsResponse.TextItems.List[0].Text;
+            else
+                return "segment doesn't exist";
+        }
+
+        /// <summary>
         /// Gets count of segments in a fragment
         /// </summary>
         /// <param name="pageNumber"></param>
@@ -217,6 +244,33 @@ namespace Aspose.Cloud.Pdf
         {
             //build URI to get page count
             string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments/" + fragmentNumber.ToString();
+            string signedURI = Utils.Sign(strURI);
+
+            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+            StreamReader reader = new StreamReader(responseStream);
+            string strJSON = reader.ReadToEnd();
+
+
+            //Parse the json string to JObject
+            JObject parsedJSON = JObject.Parse(strJSON);
+
+
+            //Deserializes the JSON to a object. 
+            TextItemsResponse textItemsResponse = JsonConvert.DeserializeObject<TextItemsResponse>(parsedJSON.ToString());
+
+            return textItemsResponse.TextItems.List.Count;
+        }
+
+        /// <summary>
+        /// a list of all text segments that are defined in the text fragment.
+        /// </summary>
+        
+        /// <returns></returns>
+        public int GetAllSegmentCount(int pageNumber, int fragmentNumber)
+        {
+            //build URI to get page count
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments/" + fragmentNumber.ToString()+"/segments";
             string signedURI = Utils.Sign(strURI);
 
             Stream responseStream = Utils.ProcessCommand(signedURI, "GET");

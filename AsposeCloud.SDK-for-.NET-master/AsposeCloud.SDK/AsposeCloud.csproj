@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -151,9 +152,23 @@
     <Compile Include="Pdf\Attachment.cs" />
     <Compile Include="Pdf\Bookmark.cs" />
     <Compile Include="Pdf\Color.cs" />
+    <Compile Include="Pdf\Enums\SignatureType.cs" />
+    <Compile Include="Pdf\ResponseHandlers\BackgroundColorRequest.cs" />
+    <Compile Include="Pdf\ResponseHandlers\DateTimeSignature.cs" />
+    <Compile Include="Pdf\ResponseHandlers\ForegroundColorRequest.cs" />
+    <Compile Include="Pdf\ResponseHandlers\LinkElement.cs" />
+    <Compile Include="Pdf\ResponseHandlers\Rectangle.cs" />
+    <Compile Include="Pdf\ResponseHandlers\RectangleRequest.cs" />
     <Compile Include="Pdf\ResponseHandlers\ReplaceTextResponse.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pdf\ResponseHandlers\StampResponse.cs" />
+    <Compile Include="Pdf\ResponseHandlers\StampTextStateRequest.cs" />
+    <Compile Include="Pdf\ResponseHandlers\WordResponse.cs" />
+    <Compile Include="Pdf\ResponseHandlers\WordsEnvelop.cs" />
+    <Compile Include="Pdf\ResponseHandlers\WordsPerPage.cs" />
+    <Compile Include="Pdf\Signature.cs" />
+    <Compile Include="Pdf\Stamp.cs" />
     <Compile Include="Pdf\TextReplace.cs" />
     <Compile Include="Pdf\Enums\LinkActionType.cs" />
     <Compile Include="Pdf\Enums\LinkHighlightingMode.cs" />
@@ -201,6 +216,7 @@
     <Compile Include="Pdf\ResponseHandlers\PagesEnvelop.cs" />
     <Compile Include="Pdf\ResponseHandlers\PagesResponse.cs" />
     <Compile Include="Pdf\TextEditor.cs" />
+    <Compile Include="Pdf\Image.cs" />
     <Compile Include="Slides\ColorScheme.cs" />
     <Compile Include="Slides\CustomPropertyList.cs" />
     <Compile Include="Slides\Document.cs" />
@@ -239,6 +255,8 @@
     <Compile Include="Slides\ResponseHandlers\SlidesResponse.cs" />
     <Compile Include="Slides\ResponseHandlers\TextItemsEnvelop.cs" />
     <Compile Include="Slides\ResponseHandlers\TextItemsResponse.cs" />
+    <Compile Include="Slides\ResponseHandlers\ThemeEnvelop.cs" />
+    <Compile Include="Slides\ResponseHandlers\ThemeResponse.cs" />
     <Compile Include="Slides\ResponseHandlers\UriResponse.cs" />
     <Compile Include="Slides\Shape.cs" />
     <Compile Include="Slides\TextItem.cs" />
@@ -252,6 +270,7 @@
     <Compile Include="Storage\FolderResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\StorageType.cs" />
+    <Compile Include="Words\BookmarkData.cs" />
     <Compile Include="Words\Converter.cs" />
     <Compile Include="Words\Document.cs" />
     <Compile Include="Words\DocumentBuilder.cs" />
@@ -270,12 +289,16 @@
     <Compile Include="Words\LinkResponse.cs" />
     <Compile Include="Words\MailMerge.cs" />
     <Compile Include="Words\Paragraph.cs" />
+    <Compile Include="Words\Protection.cs" />
     <Compile Include="Words\ResponseHandlers\DrawingObjectsResponse.cs" />
     <Compile Include="Words\ResponseHandlers\MergeFieldResponse.cs" />
+    <Compile Include="Words\ResponseHandlers\ProtectionResponse.cs" />
     <Compile Include="Words\ResponseHandlers\ReplaceTextResponse.cs" />
+    <Compile Include="Words\ResponseHandlers\SplitResultResponse.cs" />
     <Compile Include="Words\SaveFormat.cs" />
     <Compile Include="Words\Validator.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
