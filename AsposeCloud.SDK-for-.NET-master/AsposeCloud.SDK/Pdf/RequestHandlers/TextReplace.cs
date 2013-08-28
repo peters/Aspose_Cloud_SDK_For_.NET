@@ -1,0 +1,16 @@
+﻿
+namespace Aspose.Cloud.Pdf
+{
+    /// <summary>
+    /// represents Text in PDF document
+    /// </summary>
+    public class TextReplace
+    {
+        public TextReplace() { }
+
+        public string OldValue { get; set; }
+        public string NewValue { get; set; }
+        public string Regex { get; set; }
+
+    }
+}

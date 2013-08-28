@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Aspose.Cloud.Common;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 
 namespace Aspose.Cloud.Words
 {
@@ -15,7 +13,8 @@ namespace Aspose.Cloud.Words
         {
             FileName = fileName;
         }
-        public string getProtection()
+        /***********Method  GetProtection Added by:Zeeshan*******/
+        public string GetProtection()
         { 
          try
             {
@@ -48,8 +47,8 @@ namespace Aspose.Cloud.Words
                 throw new Exception(ex.Message);
             }
         }
-
-        public bool AddProtection(string password, ProtectionType protectionType)
+        /***********Method  ProtectDocument Added by:Zeeshan*******/
+        public bool ProtectDocument(string password, ProtectionType protectionType)
         {
             try
             {
@@ -94,7 +93,7 @@ namespace Aspose.Cloud.Words
                 return false;
             }
         }
-
+        /***********Method  ChangeProtection Added by:Zeeshan*******/
         public bool ChangeProtection(string oldPassword,string newPassword, ProtectionType protectionType)
         {
             try
@@ -141,8 +140,8 @@ namespace Aspose.Cloud.Words
                 return false;
             }
         }
-
-        public bool RemoveProtection(string password)
+        /***********Method  UnProtectDocument Added by:Zeeshan*******/
+        public bool UnProtectDocument(string password)
         {
             try
             {

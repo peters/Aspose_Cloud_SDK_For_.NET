@@ -8,3 +8,13 @@ C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.dll
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.pdb
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.csprojResolveAssemblyReference.cache
+D:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Debug\AsposeCloud.SDK.dll
+D:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Debug\AsposeCloud.SDK.pdb
+D:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.dll
+D:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.pdb
+F:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Debug\AsposeCloud.SDK.dll
+F:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Debug\AsposeCloud.SDK.pdb
+F:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.csprojResolveAssemblyReference.cache
+F:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.dll
+F:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.SDK.pdb
+D:\Dropbox\Personal\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Debug\AsposeCloud.csprojResolveAssemblyReference.cache

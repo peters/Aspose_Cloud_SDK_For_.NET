@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Aspose.Cloud.Words
 {
@@ -26,12 +24,12 @@ namespace Aspose.Cloud.Words
         /// <param name="SetPageNumberOnFirstPage"></param>
         /// <param name="documentFolder"></param>
 
-        public Boolean insertPageNumber(string FileName, string alignment, string format, Boolean isTop, Boolean SetPageNumberOnFirstPage, string documentFolder = "")
+        public Boolean InsertPageNumber(string fileName, string alignment, string format, Boolean isTop, Boolean setPageNumberOnFirstPage, string documentFolder = "")
         {
             try
             {
                 //build URI to get Image
-                string strURI = Product.BaseProductUri + "/words/" + FileName + "/insertPageNumbers" +
+                string strURI = Product.BaseProductUri + "/words/" + fileName + "/insertPageNumbers" +
                     (documentFolder == "" ? "" : "?folder=" + documentFolder);
 
                 string signedURI = Utils.Sign(strURI);
@@ -41,7 +39,7 @@ namespace Aspose.Cloud.Words
                 field.Alignment = alignment;
                 field.Format = format;
                 field.IsTop = isTop;
-                field.SetPageNumberOnFirstPage = SetPageNumberOnFirstPage;
+                field.SetPageNumberOnFirstPage = setPageNumberOnFirstPage;
 
                 string strJSON = JsonConvert.SerializeObject(field);
                 JObject pJSON = null;
@@ -65,7 +63,8 @@ namespace Aspose.Cloud.Words
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
+                
             }
         }
 
@@ -74,16 +73,16 @@ namespace Aspose.Cloud.Words
         /// </summary>
         /// <param name="FileName"></param>
         /// <param name="documentFolder"></param>
-        public List<string> GetMailMergeFieldNames(string FileName, string documentFolder = "")
+        public List<string> GetMailMergeFieldNames(string fileName, string documentFolder = "")
         {
             try
             {
                 //check whether file is set or not
-                if (FileName == "")
+                if (fileName == "")
                     throw new Exception("No file name specified");
 
                 //build URI
-                string strURI = Product.BaseProductUri + "/words/" + FileName;
+                string strURI = Product.BaseProductUri + "/words/" + fileName;
                 strURI += "/mailMergeFieldNames" + (documentFolder == "" ? "" : "?folder=" + documentFolder); ;
 
                 //sign URI

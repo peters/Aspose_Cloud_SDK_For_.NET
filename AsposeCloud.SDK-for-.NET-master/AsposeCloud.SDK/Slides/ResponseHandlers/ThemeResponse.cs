@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Aspose.Cloud.Slides
 {
-    public class ThemeResponse
+
+    public class ThemeResponse : Aspose.Cloud.Common.BaseResponse
     {
+        public Theme Theme { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Aspose.Cloud.Words
 {
@@ -9,10 +7,6 @@ namespace Aspose.Cloud.Words
         public FieldNames FieldNames { get; set; }
     }
 
-    public class FieldNames
-    {
-        public List<string> Names { get; set; }
-        public LinkResponse link { get; set; }
-    }
+   
 
 }

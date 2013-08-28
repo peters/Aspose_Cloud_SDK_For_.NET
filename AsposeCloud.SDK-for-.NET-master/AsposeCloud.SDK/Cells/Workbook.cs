@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 
 namespace Aspose.Cloud.Cells
 {
@@ -383,7 +382,41 @@ namespace Aspose.Cloud.Cells
             return docResponse.Names.Count;
 
         }
+        /***********Method GetName  Added by:Zeeshan*******/
+        public Name GetName(string name)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
 
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/names/" + name;
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "GET"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                NameResponse nameResponse = JsonConvert.DeserializeObject<NameResponse>(parsedJSON.ToString());
+
+                return nameResponse.Name;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public Style getDefaultStyle()
         {
             //check whether file is set or not
@@ -729,7 +762,47 @@ namespace Aspose.Cloud.Cells
                 throw new Exception(ex.Message);
             }
         }
+        /***********Method SplitDocument Added by:Zeeshan*******/
+        public bool SplitDocument(SplitDocumentFormats format, int from, int to)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
 
+                //build URI
+                string strURI = Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/split?" +
+                    (format == null ? "" : "format=" + format.ToString()) +
+                    (from == 0 ? "" : "&from=" + from.ToString()) +
+                    (to == 0 ? "" : "&to=" + to.ToString());
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST", "", ""));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse splitResultResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (splitResultResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         /// <summary>
         /// Workbook name
         /// </summary>

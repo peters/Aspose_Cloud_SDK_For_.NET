@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
+﻿using Aspose.Cloud.Common;
+using Aspose.Cloud.SDK.Slides;
 using Aspose.Cloud.Storage;
-using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Aspose.Cloud.SDK.Slides;
-using System.Xml.Serialization;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 
 
 namespace Aspose.Cloud.Slides
@@ -76,6 +76,34 @@ namespace Aspose.Cloud.Slides
             int count = slidesResponse.Slides.SlideList.Count;
             return count;
         }
+        /***********Method  GetSlide Added by:Zeeshan*******/
+        public Slide GetSlide(int slideNumber)
+        {
+            try
+            {
+                //build URI to get slide count
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber;
+
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                System.Web.UI.WebControls.Image image = new System.Web.UI.WebControls.Image();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                SlideDetailResponse slidesResponse = JsonConvert.DeserializeObject<SlideDetailResponse>(parsedJSON.ToString());
+
+                return slidesResponse.Slide;
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
 
         /// <summary>
         /// Finds the slide count of the specified PowerPoint document from a third party storage
@@ -96,7 +124,7 @@ namespace Aspose.Cloud.Slides
                     strURI.Append("&storage=" + storageName);
                     break;
             }
-            
+
             string signedURI = Utils.Sign(strURI.ToString());
 
             Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
@@ -463,12 +491,12 @@ namespace Aspose.Cloud.Slides
         /// <param name="storageType"></param>
         /// <param name="storageName">Name of the storage</param>
         /// <param name="folderName">In case of Amazon S3 storage the folder's path starts with Amazon S3 Bucket name.</param>
-        public void SaveSlideAs(string outputPath, int slideNumber, ImageFormat imageFormat, 
+        public void SaveSlideAs(string outputPath, int slideNumber, ImageFormat imageFormat,
             StorageType storageType, string storageName, string folderName)
         {
             //build URI
             StringBuilder strURI = new StringBuilder(Product.BaseProductUri + "/slides/" + FileName
-               + "/slides/" + slideNumber + "?format=" + imageFormat + 
+               + "/slides/" + slideNumber + "?format=" + imageFormat +
                (string.IsNullOrEmpty(folderName) ? "" : "&folder=" + folderName));
 
             switch (storageType)
@@ -548,7 +576,7 @@ namespace Aspose.Cloud.Slides
             }
             responseStream.Close();
         }
-        
+
         /// <summary>
         /// Saves a particular slide into various formats with specified width and height
         /// </summary>
@@ -612,8 +640,8 @@ namespace Aspose.Cloud.Slides
         public void AddCustomProperty(CustomPropertyList list)
         {
 
-            //build URI to get shapes
-            string strURI = Product.BaseProductUri + "/slides/" + FileName + "/DocumentProperties";///" + slideNumber + "/theme/color-scheme";
+            //build URI
+            string strURI = Product.BaseProductUri + "/slides/" + FileName + "/presentation/documentProperties";
             string signedURI = Utils.Sign(strURI);
 
             string strContent = ToXml(list);
@@ -668,7 +696,7 @@ namespace Aspose.Cloud.Slides
                 return false;
 
         }
-        
+
         public bool DeleteAllSlides()
         {
             //build URI to remove all the slides
@@ -691,6 +719,183 @@ namespace Aspose.Cloud.Slides
                 return false;
 
         }
+        /***********Method  DeleteSlide Added by:Zeeshan*******/
+        public bool DeleteSlide(int slideNumber)
+        {
+            try
+            {
+                //build URI to remove slide
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber;
+                string signedURI = Utils.Sign(strURI);
 
+                Stream responseStream = Utils.ProcessCommand(signedURI, "DELETE");
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// replacing of text in first cell of table on the first slide.
+        /// </summary>
+        /// 
+        /***********Method  ReplaceTextItems Added by:Zeeshan*******/
+        /**       public bool ReplaceTextItems(UriResponse uri, string name)
+               {
+
+                   try
+                   {
+                       //build URI
+                       string strURI = Product.BaseProductUri + "/slides/" + FileName + "/textItems";
+                       string signedURI = Utils.Sign(strURI);
+
+                       //serialize the JSON request content
+                       TextItem txtItem = new TextItem();
+                       UriResponse uriResponse = uri;
+                       ShapeURI sUri = new ShapeURI();
+                       sUri.Uri = uriResponse;
+                       txtItem.Uri = sUri;
+                       txtItem.Text = name;
+                       string strJSON = JsonConvert.SerializeObject(txtItem);
+
+                       Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strJSON);
+                       StreamReader reader = new StreamReader(responseStream);
+                       string strResponse = reader.ReadToEnd();
+                       //Parse the json string to JObject
+                       JObject pJSON = JObject.Parse(strResponse);
+                       TextItemsResponse baseResponse = JsonConvert.DeserializeObject<TextItemsResponse>(pJSON.ToString());
+                       if ((baseResponse.Code == "200" && baseResponse.Status == "OK") || (baseResponse.Code == "201" && baseResponse.Status == "Created"))
+                           return true;
+                       else
+                           return false;
+                   }
+                   catch (Exception ex)
+                   {
+                       throw ex;
+                   }
+               }**/
+
+        public Theme GetTheme(int slideNumber)
+        {
+            try
+            {
+                //build URI to get all text items in a slide
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/theme";
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                ThemeResponse themeResponse = JsonConvert.DeserializeObject<ThemeResponse>(parsedJSON.ToString());
+
+                return themeResponse.Theme;
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
+        /***********Method  MergeDocuments Added by:Zeeshan*******/
+        public bool MergeDocuments(String[] sourceFiles)
+        {
+
+            try
+            {
+                //New PDF Filename
+                String mergedFileName = FileName;
+
+                if (sourceFiles.Length < 2)
+                {
+                    throw new Exception("Two or more files are requred to merge.");
+                }
+
+
+                //build URI to get page count
+                String strURI = Product.BaseProductUri + "/slides/" + mergedFileName + "/merge";
+                String signedURI = Utils.Sign(strURI);
+
+                SourceFilesList sourcefileslist = new SourceFilesList();
+                sourcefileslist.List = sourceFiles;
+
+                string jsondata = JsonConvert.SerializeObject(sourcefileslist);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST", jsondata, "json"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (stream.Code == "200" && stream.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+        /***********Method  SetDocumentProperties Added by:Zeeshan*******/
+
+        //public bool SetDocumentProperties(List<DocumentProperty> DocumentProperties)
+        //{
+        //    try
+        //    {
+        //        //build URI to remove single property
+        //        string strURI = Product.BaseProductUri + "/slides/" + FileName + "/documentProperties";
+        //        string signedURI = Utils.Sign(strURI);
+        //        DocumentPropertiesEnvelop properties = new DocumentPropertiesEnvelop();
+        //        properties.List = DocumentProperties;
+
+        //        //serialize the JSON request content
+        //        //DocumentProperty docProperty = new DocumentProperty();
+        //        //docProperty.Value = value;
+        //        string strJSON = JsonConvert.SerializeObject(properties);
+
+        //        Stream responseStream = Utils.ProcessCommand(signedURI, "POST", strJSON);
+        //        StreamReader reader = new StreamReader(responseStream);
+        //        string strResponse = reader.ReadToEnd();
+        //        //Parse the json string to JObject
+        //        JObject pJSON = JObject.Parse(strResponse);
+
+        //        DocumentPropertyResponse baseResponse = JsonConvert.DeserializeObject<DocumentPropertyResponse>(pJSON.ToString());
+
+        //        if ((baseResponse.Code == "200" && baseResponse.Status == "OK") || (baseResponse.Code == "201" && baseResponse.Status == "Created"))
+        //            return true;
+        //        else
+        //            return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }

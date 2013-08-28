@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Aspose.Cloud.Common;
-
-using System.IO;
-
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Aspose.Cloud.Pdf
 {
@@ -179,7 +175,7 @@ namespace Aspose.Cloud.Pdf
             return textItemsResponse.TextItems.List;
         }
 
-        
+
         /// <summary>
         /// Gets count of the fragments from a particular page
         /// </summary>
@@ -210,10 +206,11 @@ namespace Aspose.Cloud.Pdf
         /// <summary>
         /// Gets an individual segment
         /// </summary>
-        public string GetSegment(int pageNumber,int fragmentNumber,int segmentNumber)
+        /// /***********Method  GetSegment Added by:Zeeshan*******/
+        public string GetSegment(int pageNumber, int fragmentNumber, int segmentNumber)
         {
             //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments"+fragmentNumber.ToString()+"/segments"+segmentNumber.ToString();
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments/" + fragmentNumber.ToString() + "/segments/" + segmentNumber.ToString();
             string signedURI = Utils.Sign(strURI);
 
             Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
@@ -227,9 +224,9 @@ namespace Aspose.Cloud.Pdf
 
 
             //Deserializes the JSON to a object. 
-            TextItemsResponse textItemsResponse = JsonConvert.DeserializeObject<TextItemsResponse>(parsedJSON.ToString());
-            if (textItemsResponse.TextItems.List.Count > 0)
-                return textItemsResponse.TextItems.List[0].Text;
+            SagmentResponse segmentResponse = JsonConvert.DeserializeObject<SagmentResponse>(parsedJSON.ToString());
+            if (segmentResponse.TextItem != null)
+                return segmentResponse.TextItem.Text;
             else
                 return "segment doesn't exist";
         }
@@ -265,12 +262,14 @@ namespace Aspose.Cloud.Pdf
         /// <summary>
         /// a list of all text segments that are defined in the text fragment.
         /// </summary>
-        
+
         /// <returns></returns>
+        /// 
+        /***********Method  GetAllSegmentCount Added by:Zeeshan*******/
         public int GetAllSegmentCount(int pageNumber, int fragmentNumber)
         {
             //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments/" + fragmentNumber.ToString()+"/segments";
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/fragments/" + fragmentNumber.ToString() + "/segments";
             string signedURI = Utils.Sign(strURI);
 
             Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
@@ -347,7 +346,7 @@ namespace Aspose.Cloud.Pdf
             return textformatResponse.TextFormat;
         }
 
-        
+
         /// <summary>
         /// Replace Text in a PDF Document
         /// </summary>
@@ -391,15 +390,15 @@ namespace Aspose.Cloud.Pdf
 
         }
 
-       /// <summary>
+        /// <summary>
         /// Replace Text in Particular Page of PDF Document
-       /// </summary>
-       /// <param name="pageNumber"></param>
-       /// <param name="oldText"></param>
-       /// <param name="newText"></param>
-       /// <param name="isRegularExpression"></param>
-       /// <returns>Number of Matches</returns>
-        public int ReplaceText(int pageNumber,string oldText, string newText, bool isRegularExpression)
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="oldText"></param>
+        /// <param name="newText"></param>
+        /// <param name="isRegularExpression"></param>
+        /// <returns>Number of Matches</returns>
+        public int ReplaceText(int pageNumber, string oldText, string newText, bool isRegularExpression)
         {
 
             //build URI to get page count

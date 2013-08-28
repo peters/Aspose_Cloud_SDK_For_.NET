@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Aspose.Cloud.Common
 {
@@ -10,6 +8,7 @@ namespace Aspose.Cloud.Common
 
     class SourceFilesList
     {
+        public SourceFilesList() { }
         public String[] List { get; set; }
     }
 }

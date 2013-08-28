@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Aspose.Cloud.Common;
 using Aspose.Cloud.Storage;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Aspose.Cloud.BarCode
 {

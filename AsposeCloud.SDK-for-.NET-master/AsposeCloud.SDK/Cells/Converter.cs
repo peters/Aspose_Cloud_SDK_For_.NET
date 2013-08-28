@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
+﻿using Aspose.Cloud.Common;
+using System;
 using System.IO;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 
 
 namespace Aspose.Cloud.Cells
@@ -34,7 +28,7 @@ namespace Aspose.Cloud.Cells
         public Converter(string fileName, string worksheetName)
         {
             FileName = fileName;
-            WorkSheetName = worksheetName;
+            WorksheetName = worksheetName;
 
         }
 
@@ -51,12 +45,12 @@ namespace Aspose.Cloud.Cells
                 //check whether file is set or not
                 if (FileName == "")
                     throw new Exception("No file name specified");
-                else if (WorkSheetName == "")
+                else if (WorksheetName == "")
                     throw new Exception("No Worksheet name specified");
 
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/autoshapes/" + index + "?format=" + outputformat;
+                strURI += "/worksheets/" + WorksheetName + "/autoshapes/" + index + "?format=" + outputformat;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -88,12 +82,12 @@ namespace Aspose.Cloud.Cells
                 //check whether file is set or not
                 if (FileName == "")
                     throw new Exception("No file name specified");
-                else if (WorkSheetName == "")
+                else if (WorksheetName == "")
                     throw new Exception("No Worksheet name specified");
 
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/charts/" + index + "?format=" + outputformat;
+                strURI += "/worksheets/" + WorksheetName + "/charts/" + index + "?format=" + outputformat;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -128,12 +122,12 @@ namespace Aspose.Cloud.Cells
                 //check whether file is set or not
                 if (FileName == "")
                     throw new Exception("No file name specified");
-                else if (WorkSheetName == "")
+                else if (WorksheetName == "")
                     throw new Exception("No Worksheet name specified");
 
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/oleobjects/" + index + "?format=" + outputformat;
+                strURI += "/worksheets/" + WorksheetName + "/oleobjects/" + index + "?format=" + outputformat;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -166,12 +160,12 @@ namespace Aspose.Cloud.Cells
                 //check whether file is set or not
                 if (FileName == "")
                     throw new Exception("No file name specified");
-                else if (WorkSheetName == "")
+                else if (WorksheetName == "")
                     throw new Exception("No Worksheet name specified");
 
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/pictures/" + index + "?format=" + outputformat;
+                strURI += "/worksheets/" + WorksheetName + "/pictures/" + index + "?format=" + outputformat;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -204,12 +198,12 @@ namespace Aspose.Cloud.Cells
                 //check whether file is set or not
                 if (FileName == "")
                     throw new Exception("No file name specified");
-                else if (WorkSheetName == "")
+                else if (WorksheetName == "")
                     throw new Exception("No Worksheet name specified");
 
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "?format=" + outputFormat;
+                strURI += "/worksheets/" + WorksheetName + "?format=" + outputFormat;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -328,7 +322,7 @@ namespace Aspose.Cloud.Cells
         /// <summary>
         /// 
         /// </summary>
-        public string WorkSheetName { get; set; }
+        public string WorksheetName { get; set; }
 
         /// <summary>
         /// Workbook name

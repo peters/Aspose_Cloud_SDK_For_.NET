@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Aspose.Cloud.Pdf
 {
     /// <summary>
@@ -9,7 +6,7 @@ namespace Aspose.Cloud.Pdf
     /// </summary>
     public class StampResponse : Aspose.Cloud.Common.BaseResponse
     {
-        public Stamp stamp { get; set; }
+        public StampRequest stamp { get; set; }
 
     }
 }

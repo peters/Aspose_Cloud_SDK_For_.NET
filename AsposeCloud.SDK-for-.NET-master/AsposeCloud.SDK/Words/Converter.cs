@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Storage;
-using Aspose.Cloud.Common;
+﻿using Aspose.Cloud.Common;
+using System;
 using System.IO;
 
 
@@ -79,7 +76,7 @@ namespace Aspose.Cloud.Words
         /// </summary>
         /// <param name="output">the location of the output file</param>
         /// /// <param name="output">SaveFormat of the output file</param>
-        public void Convert(string output, SaveFormat OutPutType)
+        public void Convert(string output, SaveFormat OutputType)
         {
             try
             {
@@ -89,7 +86,7 @@ namespace Aspose.Cloud.Words
 
                 //build URI
                 string strURI = Product.BaseProductUri + "/words/" + FileName;
-                strURI += "?format=" + OutPutType;
+                strURI += "?format=" + OutputType;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);

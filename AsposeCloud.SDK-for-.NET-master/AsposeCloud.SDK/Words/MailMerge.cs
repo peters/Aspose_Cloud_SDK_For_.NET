@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
+﻿using Aspose.Cloud.Common;
+using System;
 using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
 using System.Xml.XPath;
 
 namespace Aspose.Cloud.Words
@@ -21,7 +17,7 @@ namespace Aspose.Cloud.Words
         /// <param name="documentFolder"></param>
         /// <param name="deleteFromStorage"></param>
 
-        public void ExecuteMailMerege(string FileName, string strXML, SaveFormat saveformat, string output,
+        public void ExecuteMailMerge(string FileName, string strXML, SaveFormat saveformat, string output,
             string documentFolder = "", bool deleteFromStorage = false)
         {
             try
@@ -93,7 +89,7 @@ namespace Aspose.Cloud.Words
         /// <param name="output"></param>
         /// <param name="documentFolder"></param>
         /// <param name="deleteFromStorage"></param>
-        public void ExecuteMailMeregewithRegions(string FileName, string strXML, SaveFormat saveformat, string output,
+        public void ExecuteMailMergewithRegions(string FileName, string strXML, SaveFormat saveformat, string output,
             string documentFolder = "", bool deleteFromStorage = false)
         {
             try
@@ -225,12 +221,13 @@ namespace Aspose.Cloud.Words
                 throw ex;
             }
         }
-        public void PutMailMerege(string FileName, string strXML, string documentFolder = "")
+        /***********Method  InsertMailMerge Added by:Zeeshan*******/
+        public void InsertMailMerge(string fileName, string strXML, string documentFolder = "")
         {
             try
             {
                 //build URI to get Image
-                string strURI = Product.BaseProductUri + "/words/" + FileName + "/executeMailMerge?withRegions=False" +
+                string strURI = Product.BaseProductUri + "/words/" + fileName + "/executeMailMerge?withRegions=False" +
                     (documentFolder == "" ? "" : "?folder=" + documentFolder);
 
                 string signedURI = Utils.Sign(strURI);

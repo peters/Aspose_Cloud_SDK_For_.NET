@@ -3,6 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsposeCloud", "AsposeCloud.csproj", "{232BFF8E-F233-4B6B-B1D0-0A901736D949}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TestingApplication", "..\TestingApplication", "{A2C0CF0B-89A9-4A0D-9463-9858B6BCB62C}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/TestingApplication"
+		Debug.AspNetCompiler.PhysicalPath = "..\TestingApplication\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\TestingApplication\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/TestingApplication"
+		Release.AspNetCompiler.PhysicalPath = "..\TestingApplication\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\TestingApplication\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "13475"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +33,10 @@ Global
 		{232BFF8E-F233-4B6B-B1D0-0A901736D949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{232BFF8E-F233-4B6B-B1D0-0A901736D949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{232BFF8E-F233-4B6B-B1D0-0A901736D949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C0CF0B-89A9-4A0D-9463-9858B6BCB62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C0CF0B-89A9-4A0D-9463-9858B6BCB62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C0CF0B-89A9-4A0D-9463-9858B6BCB62C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C0CF0B-89A9-4A0D-9463-9858B6BCB62C}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Xml;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 
 
 namespace Aspose.Cloud.Pdf
@@ -32,27 +30,27 @@ namespace Aspose.Cloud.Pdf
         /// <returns>page count</returns>
         public int GetPageCount()
         {
-                    //build URI to get page count
-                    string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
-                    string signedURI = Utils.Sign(strURI);
+            //build URI to get page count
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
+            string signedURI = Utils.Sign(strURI);
 
-                    Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
-                    
-                    StreamReader reader = new StreamReader(responseStream);
-                    string strJSON = reader.ReadToEnd();
+            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+            StreamReader reader = new StreamReader(responseStream);
+            string strJSON = reader.ReadToEnd();
 
 
-                    //Parse the json string to JObject
-                    JObject parsedJSON = JObject.Parse(strJSON);
+            //Parse the json string to JObject
+            JObject parsedJSON = JObject.Parse(strJSON);
 
-                    
-                    //Deserializes the JSON to a object. 
-                    PagesResponse pagesResponse = JsonConvert.DeserializeObject<PagesResponse>(parsedJSON.ToString());
 
-                   int count = pagesResponse.Pages.List.Count;
+            //Deserializes the JSON to a object. 
+            PagesResponse pagesResponse = JsonConvert.DeserializeObject<PagesResponse>(parsedJSON.ToString());
 
-                   
-                    return count;
+            int count = pagesResponse.Pages.List.Count;
+
+
+            return count;
         }
 
         /// <summary>
@@ -60,107 +58,175 @@ namespace Aspose.Cloud.Pdf
         /// </summary>
         /// <returns>Stamp</returns>
         /// 
-        public bool AddStamp(int Type,
-          bool Background,
-          float BottomMargin,
-          int HorizontalAlignment,
-          float LeftMargin,
-          float Opacity,
-          float RightMargin,
-          int Rotate,
-          float RotateAngle,
-          float TopMargin,
-          int VerticalAlignment,
-          float XIndent,
-          float YIndent,
-          float Zoom,
-          int TextAlignment,
-          string TEXT,
-         List<StampTextStateRequest>TextState,
-          float Width,
-          float Height,
-          int PageIndex,
- int StartingNumber)
+
+        /***********Method  AddStampWithTextState Added by:Zeeshan*******/
+        public bool AddStampWithTextState(StampRequest stampRequest)
         {
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + PageIndex+"/stamp/";
-            string signedURI = Utils.Sign(strURI);
-
-            //serialize the JSON request content
-            Stamp stamp = new Stamp();
-            stamp.PageIndex = PageIndex;
-            string strJSON = JsonConvert.SerializeObject(stamp);
-
-            Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strJSON);
-
-            StreamReader reader = new StreamReader(responseStream);
-            string strResponse = reader.ReadToEnd();
-
-            //Parse the json string to JObject
-            JObject pJSON = JObject.Parse(strResponse);
-
-            StampResponse baseResponse = JsonConvert.DeserializeObject<StampResponse>(pJSON.ToString());
-
-            if (baseResponse.Code == "200" && baseResponse.Status == "OK")
-                return true;
-            else
-                return false;
+            try
+            {
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + stampRequest.PageIndex + "/stamp/";
+                string signedURI = Utils.Sign(strURI);
 
 
+                string strJSON = JsonConvert.SerializeObject(stampRequest);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strJSON);
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strResponse = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject pJSON = JObject.Parse(strResponse);
+
+                StampResponse baseResponse = JsonConvert.DeserializeObject<StampResponse>(pJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+        /***********Method  AddStamp Added by:Zeeshan*******/
+       
+        public bool AddStamp(StampRequest stampRequest)
+        {
+            try
+            {
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + stampRequest.PageIndex + "/stamp/";
+                string signedURI = Utils.Sign(strURI);
+
+                string strJSON = JsonConvert.SerializeObject(stampRequest);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strJSON);
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strResponse = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject pJSON = JObject.Parse(strResponse);
+
+                StampResponse baseResponse = JsonConvert.DeserializeObject<StampResponse>(pJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
+        
+        
         /// <summary>
         /// Gets the page count of the specified PDF document
         /// </summary>
         /// <returns>page count</returns>
+        /// \
+        /// 
+        /***********Method  GetTotalWordCount Added by:Zeeshan*******/
         public int GetTotalWordCount()
         {
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
-            strURI+="/wordCount";
-            string signedURI = Utils.Sign(strURI);
+            try
+            {
 
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
+                strURI += "/wordCount";
+                string signedURI = Utils.Sign(strURI);
 
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
 
 
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
 
 
-            //Deserializes the JSON to a object. 
-            WordsPerPage wordsResponse = JsonConvert.DeserializeObject<WordsPerPage>(parsedJSON.ToString());
-            int count = 0;
-            foreach (WordResponse wordResponse in wordsResponse.Wordsperpage.List)
-                count += wordResponse.Count;
-            return count;
+                //Deserializes the JSON to a object. 
+                WordsPerPage wordsResponse = JsonConvert.DeserializeObject<WordsPerPage>(parsedJSON.ToString());
+                int count = 0;
+                foreach (WordResponse wordResponse in wordsResponse.Wordsperpage.List)
+                    count += wordResponse.Count;
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public int GetWordsPerPage(int pageNumber)
         {
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
-            strURI += "/wordCount";
-            string signedURI = Utils.Sign(strURI);
-
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
-
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
-
-
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
-
-
-            //Deserializes the JSON to a object. 
-            WordsPerPage wordsResponse = JsonConvert.DeserializeObject<WordsPerPage>(parsedJSON.ToString());
-            int count = 0;
-            if (pageNumber <= wordsResponse.Wordsperpage.List.Count)
+            try
             {
-                count = wordsResponse.Wordsperpage.List[pageNumber - 1].Count;
-            }
+                //build URI to get page count
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/Pages";
+                strURI += "/wordCount";
+                string signedURI = Utils.Sign(strURI);
 
-            return count;
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+
+                //Deserializes the JSON to a object. 
+                WordsPerPage wordsResponse = JsonConvert.DeserializeObject<WordsPerPage>(parsedJSON.ToString());
+                int count = 0;
+                if (pageNumber <= wordsResponse.Wordsperpage.List.Count)
+                {
+                    count = wordsResponse.Wordsperpage.List[pageNumber - 1].Count;
+                }
+
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /***********Method  GetDocument Added by:Zeeshan*******/
+        public PdfDocument GetDocument()
+        {
+            try
+            {
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName;
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                DocumentResponse documentPropertiesResponse = JsonConvert.DeserializeObject<DocumentResponse>(parsedJSON.ToString());
+
+                return documentPropertiesResponse.Document;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -169,26 +235,32 @@ namespace Aspose.Cloud.Pdf
         /// <returns>list of properties</returns>
         public List<DocumentProperty> GetDocumentProperties()
         {
+            try
+            {
 
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/documentProperties";
-            string signedURI = Utils.Sign(strURI);
+                //build URI to get page count
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/documentProperties";
+                string signedURI = Utils.Sign(strURI);
 
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
 
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
-
-
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
 
 
-            //Deserializes the JSON to a object. 
-            DocumentPropertiesResponse documentPropertiesResponse = JsonConvert.DeserializeObject<DocumentPropertiesResponse>(parsedJSON.ToString());
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
 
-            return documentPropertiesResponse.DocumentProperties.List;
 
+                //Deserializes the JSON to a object. 
+                DocumentPropertiesResponse documentPropertiesResponse = JsonConvert.DeserializeObject<DocumentPropertiesResponse>(parsedJSON.ToString());
+
+                return documentPropertiesResponse.DocumentProperties.List;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -296,18 +368,15 @@ namespace Aspose.Cloud.Pdf
                 return false;
         }
 
-        /// <summary>
-        /// Gets the form field count
-        /// </summary>
-        /// <returns>count of the form fields</returns>
-        public int GetFormFieldCount()
+        public bool RemoveDocumentProperty()
         {
 
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
+
+            //build URI
+            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/documentProperties/Author";
             string signedURI = Utils.Sign(strURI);
 
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+            Stream responseStream = Utils.ProcessCommand(signedURI, "DELETE");
 
             StreamReader reader = new StreamReader(responseStream);
             string strJSON = reader.ReadToEnd();
@@ -318,10 +387,45 @@ namespace Aspose.Cloud.Pdf
 
 
             //Deserializes the JSON to a object. 
-            FormFieldsResponse formFieldsResponse = JsonConvert.DeserializeObject<FormFieldsResponse>(parsedJSON.ToString());
+            BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
 
-            return formFieldsResponse.Fields.List.Count;
+            if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                return true;
+            else
+                return false;
+        }
 
+        /// <summary>
+        /// Gets the form field count
+        /// </summary>
+        /// <returns>count of the form fields</returns>
+        public int GetFormFieldCount()
+        {
+            try
+            {
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+
+                //Deserializes the JSON to a object. 
+                FormFieldsResponse formFieldsResponse = JsonConvert.DeserializeObject<FormFieldsResponse>(parsedJSON.ToString());
+
+                return formFieldsResponse.Fields.List.Count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -330,26 +434,31 @@ namespace Aspose.Cloud.Pdf
         /// <returns>list of the form fields</returns>
         public List<FormField> GetFormFields()
         {
+            try
+            {
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
+                string signedURI = Utils.Sign(strURI);
 
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
-            string signedURI = Utils.Sign(strURI);
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
 
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
-
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
-
-
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
 
 
-            //Deserializes the JSON to a object. 
-            FormFieldsResponse formFieldsResponse = JsonConvert.DeserializeObject<FormFieldsResponse>(parsedJSON.ToString());
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
 
-            return formFieldsResponse.Fields.List;
 
+                //Deserializes the JSON to a object. 
+                FormFieldsResponse formFieldsResponse = JsonConvert.DeserializeObject<FormFieldsResponse>(parsedJSON.ToString());
+
+                return formFieldsResponse.Fields.List;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -359,25 +468,31 @@ namespace Aspose.Cloud.Pdf
         /// <returns>form field</returns>
         public FormField GetFormField(string fieldName)
         {
+            try
+            {
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields/" + fieldName;
+                string signedURI = Utils.Sign(strURI);
 
-            //build URI to get page count
-            string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields/" + fieldName;
-            string signedURI = Utils.Sign(strURI);
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
 
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
-
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
-
-
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
 
 
-            //Deserializes the JSON to a object. 
-            FormFieldResponse formFieldResponse = JsonConvert.DeserializeObject<FormFieldResponse>(parsedJSON.ToString());
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
 
-            return formFieldResponse.Field;
+
+                //Deserializes the JSON to a object. 
+                FormFieldResponse formFieldResponse = JsonConvert.DeserializeObject<FormFieldResponse>(parsedJSON.ToString());
+
+                return formFieldResponse.Field;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
@@ -392,7 +507,7 @@ namespace Aspose.Cloud.Pdf
         {
             try
             {
- 
+
                 string strURI = Product.BaseProductUri + "/pdf/" + pdfFileName + "?templateFile=" + xsltFileName + "&dataFile=" + xmlFileName + "&templateType=xml";
                 string signedURI = Utils.Sign(strURI);
 
@@ -466,7 +581,7 @@ namespace Aspose.Cloud.Pdf
         /// <param name="newDocumentName"></param>
         /// <returns></returns>
 
-        public  bool CreateEmptyPdf(String newDocumentName)
+        public bool CreateEmptyPdf(String newDocumentName)
         {
 
             try
@@ -506,7 +621,7 @@ namespace Aspose.Cloud.Pdf
         /// </summary>
         /// <param name="sourceFiles"></param>        
         /// <returns></returns>
-
+        /***********Method  MergeDocuments Added by:Zeeshan*******/
         public bool MergeDocuments(String[] sourceFiles)
         {
 
@@ -515,9 +630,9 @@ namespace Aspose.Cloud.Pdf
                 //New PDF Filename
                 String mergedFileName = FileName;
 
-                if (sourceFiles.Length < 2)
+                if (sourceFiles.Length < 1)
                 {
-                    throw new Exception("Two or more files are requred to merge.");
+                    throw new Exception("One or more files are requred to merge.");
                 }
 
 
@@ -567,19 +682,19 @@ namespace Aspose.Cloud.Pdf
             try
             {
                 //Saving Exisiting File name
-                String sOldFile=FileName;
+                String sOldFile = FileName;
 
                 //Getting Total page in PDF
                 FileName = newPdf;
                 int iPageCount = GetPageCount();
-               
+
                 //Setting Old File name again
                 FileName = sOldFile;
 
                 //build URI to get page count
-                string strURI = Product.BaseProductUri + "/pdf/" + basePdf + "/appendDocument?appendFile="+newPdf+"&startPage=1&endPage="+iPageCount.ToString();
+                string strURI = Product.BaseProductUri + "/pdf/" + basePdf + "/appendDocument?appendFile=" + newPdf + "&startPage=1&endPage=" + iPageCount.ToString();
                 string signedURI = Utils.Sign(strURI);
-                
+
 
                 StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
 
@@ -610,14 +725,14 @@ namespace Aspose.Cloud.Pdf
         /// <param name="fromId"></param>
         /// <param name="toId"></param>
         /// <returns></returns>
-
-        public bool SplitDocument(int fromId, int toId)
+        /***********Method  SplitDocument Added by:Zeeshan*******/
+        public LinkResponse[] SplitDocument(int from, int to)
         {
 
             try
             {
-            //build URI 
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/split?from=" + fromId + "&to=" + toId;
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/split?from=" + from + "&to=" + to;
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -629,12 +744,8 @@ namespace Aspose.Cloud.Pdf
                 //Parse the json string to JObject
                 JObject parsedJSON = JObject.Parse(strJSON);
 
-                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
-
-                if (stream.Code == "200" && stream.Status == "OK")
-                    return true;
-                else
-                    return false;
+                SplitPDFResponse responseStream = JsonConvert.DeserializeObject<SplitPDFResponse>(parsedJSON.ToString());
+                return responseStream.Result.Documents;
 
             }
             catch (Exception ex)
@@ -651,14 +762,14 @@ namespace Aspose.Cloud.Pdf
         /// <param name="toId"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-
-        public bool SplitDocument(int fromId, int toId,string format)
+        /***********Method  SplitDocument Added by:Zeeshan*******/
+        public LinkResponse[] SplitDocument(int from, int to, SplitDocumentFormat format)
         {
 
             try
             {
                 //build URI 
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/split?from=" + fromId + "&to=" + toId+"&format="+format;
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/split?from=" + from + "&to=" + to + "&format=" + format.ToString();
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -670,12 +781,9 @@ namespace Aspose.Cloud.Pdf
                 //Parse the json string to JObject
                 JObject parsedJSON = JObject.Parse(strJSON);
 
-                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+                SplitPDFResponse responseStream = JsonConvert.DeserializeObject<SplitPDFResponse>(parsedJSON.ToString());
+                return responseStream.Result.Documents;
 
-                if (stream.Code == "200" && stream.Status == "OK")
-                    return true;
-                else
-                    return false;
 
             }
             catch (Exception ex)
@@ -689,8 +797,8 @@ namespace Aspose.Cloud.Pdf
         /// Splits pages of PDF document.
         /// </summary>
         /// <returns></returns>
-
-        public bool SplitDocument()
+        /***********Method  SplitDocument Added by:Zeeshan*******/
+        public LinkResponse[] SplitDocument()
         {
 
             try
@@ -708,12 +816,8 @@ namespace Aspose.Cloud.Pdf
                 //Parse the json string to JObject
                 JObject parsedJSON = JObject.Parse(strJSON);
 
-                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
-
-                if (stream.Code == "200" && stream.Status == "OK")
-                    return true;
-                else
-                    return false;
+                SplitPDFResponse responseStream = JsonConvert.DeserializeObject<SplitPDFResponse>(parsedJSON.ToString());
+                return responseStream.Result.Documents;
 
             }
             catch (Exception ex)
@@ -737,7 +841,7 @@ namespace Aspose.Cloud.Pdf
 
             try
             {
- 
+
                 //build URI to get page count
                 string strURI = Product.BaseProductUri + "/pdf/" + basePdf + "/appendDocument/?appendFile=" + newPdf + "&startPage=" + startPage.ToString() + "&endPage=" + endPage.ToString();
                 string signedURI = Utils.Sign(strURI);
@@ -765,18 +869,18 @@ namespace Aspose.Cloud.Pdf
             }
 
         }
-        
+
         /// <summary>
         /// Adds new page to opened Pdf document
         /// </summary>
         /// <returns></returns>
-       
+
         public bool AddNewPage()
         {
 
             try
             {
- 
+
                 //build URI to get page count
                 string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages";
                 string signedURI = Utils.Sign(strURI);
@@ -796,7 +900,7 @@ namespace Aspose.Cloud.Pdf
                     return true;
                 else
                     return false;
-         
+
             }
             catch (Exception ex)
             {
@@ -809,13 +913,13 @@ namespace Aspose.Cloud.Pdf
         /// </summary>
         /// <returns></returns>
 
-        public bool SaveAsTiff(string outputFile,string compression,string folderName)
+        public bool SaveAsTiff(string outputFile, string compression, string folderName)
         {
 
             try
             {
                 //build URI 
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/SaveAs/tiff?resultFile="+outputFile+"&compression="+compression+"&folder="+folderName;
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/SaveAs/tiff?resultFile=" + outputFile + "&compression=" + compression + "&folder=" + folderName;
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -846,29 +950,14 @@ namespace Aspose.Cloud.Pdf
         /// to add signature to the document by using specific form field.
         /// </summary>
         /// <returns></returns>
-
-        public bool AddSignature(string signaturePath,string password,SignatureType signatureType,string formFieldName,string reason,string contact,
-            string location,DateTime date,string authority,string appearance,System.Drawing.Rectangle rectangle,bool visible)
+        /***********Method  AddSignature Added by:Zeeshan*******/
+        public bool AddSignature(Signature sign)
         {
 
             try
             {
 
-                Signature signature = new Signature();
-                signature.SignaturePath = signaturePath;
-                signature.Password = password;
-                signature.SignatureType = signatureType;
-                signature.FormFieldName = formFieldName;
-                signature.Reason = reason;
-                signature.Contact = contact;
-                signature.Location = location;
-                signature.Date = new DateTimeSignature(date);
-                signature.Authority = authority;
-                signature.Appearance = appearance;
-                signature.Rectangle = new Rectangle(rectangle);
-                signature.Visible = visible;
-
-                string strJSON = JsonConvert.SerializeObject(signature);
+                string strJSON = JsonConvert.SerializeObject(sign);
                 //build URI to get page coun
                 string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/sign";
                 string signedURI = Utils.Sign(strURI);
@@ -901,19 +990,16 @@ namespace Aspose.Cloud.Pdf
         /// add form field
         /// </summary>
         /// <returns></returns>
-
-        public List<FormField> AddFormField(FormFieldsEnvelop formField)
+        /***********Method  InsertFormField Added by:Zeeshan*******/
+        public bool InsertFormField(FormField formField)
         {
 
             try
             {
 
-                //list
-                //formField.Links = links;
-
                 string strJSON = JsonConvert.SerializeObject(formField);
                 //build URI 
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields/"+formField.Name;
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -925,10 +1011,12 @@ namespace Aspose.Cloud.Pdf
                 //Parse the json string to JObject
                 JObject parsedJSON = JObject.Parse(strJSON);
 
-                //Deserializes the JSON to a object. 
-                FormFieldsResponse formFieldsResponse = JsonConvert.DeserializeObject<FormFieldsResponse>(parsedJSON.ToString());
+                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
 
-                return formFieldsResponse.Fields.List;
+                if (stream.Code == "200" && stream.Status == "OK")
+                    return true;
+                else
+                    return false;
 
 
             }
@@ -938,54 +1026,16 @@ namespace Aspose.Cloud.Pdf
             }
 
         }
-
-        /// <summary>
-        ///  SaveAs Tiff by passing settings
-        /// </summary>
-        /// <returns></returns>
-
-        public bool SaveAsTiff(string folderName,float brightness,
-        string compression,
-        int colorDepth,
-        int leftMargin,
-        int rightMargin,
-        int topMargin,
-        int bottomMargin,
-        int orientation,
-        int skipBlankPages,
-        int width,
-        int height,
-        int xResolution,
-        int yResolution,
-        int pageIndex,  
-        int pageCount,
-        string resultFile)
+        /***********Method  InsertFormFields Added by:Zeeshan*******/
+        public bool InsertFormFields(FormFields formField)
         {
 
             try
             {
 
-                Image img = new Image();
-                
-                    img.Brightness=brightness;
-                    img.Compression=compression;
-            img.ColorDepth=colorDepth;
-            img.LeftMargin=leftMargin;
-            img.RightMargin=rightMargin;
-            img.TopMargin=topMargin;
-            img.BottomMargin=bottomMargin;
-            img.Orientation=orientation;
-            img.skipBlankPages=skipBlankPages;
-            img.Width=width;
-            img.Height=height;
-            img.XResolution=xResolution;
-            img.YResolution = yResolution;
-            img.PageIndex=pageIndex;
-            img.PageCount=pageCount;
-            img.ResultFile=resultFile;
-                string strJSON = JsonConvert.SerializeObject(img);
-                //build URI to get page coun
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/SaveAs/tiff?folder="+folderName;
+                string strJSON = JsonConvert.SerializeObject(formField);
+                //build URI 
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/fields";
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -1011,7 +1061,48 @@ namespace Aspose.Cloud.Pdf
             }
 
         }
-        
+
+        /// <summary>
+        ///  SaveAs Tiff by passing settings
+        /// </summary>
+        /// <returns></returns>
+        /***********Method  ProtectWorksheet Added by:Zeeshan*******/
+        public bool SaveAsTiff(SaveAsTiffOptions image, string folderName)
+        {
+
+            try
+            {
+
+
+                string strJSON = JsonConvert.SerializeObject(image);
+                //build URI to get page coun
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/SaveAs/tiff?folder=" + folderName;
+                string signedURI = Utils.Sign(strURI);
+
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "PUT", strJSON));
+
+                //further process JSON response
+                strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                BaseResponse stream = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (stream.Code == "200" && stream.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
         /// <summary>
         /// Deletes selected page in Pdf document
         /// </summary>
@@ -1024,7 +1115,7 @@ namespace Aspose.Cloud.Pdf
             {
 
                 //build URI to get page count
-                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/"+pageNumber.ToString();
+                string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString();
                 string signedURI = Utils.Sign(strURI);
 
 
@@ -1086,22 +1177,22 @@ namespace Aspose.Cloud.Pdf
             }
         }
 
-       /// <summary>
-       ///  Replace Image in PDF File using Local Image Stream
-       /// </summary>
-       /// <param name="pageNumber"></param>
-       /// <param name="imageIndex"></param>
-       /// <param name="imageStream"></param>
-       /// <returns></returns>
+        /// <summary>
+        ///  Replace Image in PDF File using Local Image Stream
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="imageIndex"></param>
+        /// <param name="imageStream"></param>
+        /// <returns></returns>
         public bool ReplaceImageUsingStream(int pageNumber, int imageIndex, Stream imageStream)
         {
             try
             {
                 //build URI to get page count
                 string strURI = Product.BaseProductUri + "/pdf/" + FileName + "/pages/" + pageNumber.ToString() + "/images/" + imageIndex.ToString();
-               
+
                 string signedURI = Utils.Sign(strURI);
-                
+
                 Stream responseStream = Utils.ProcessCommand(signedURI, "POST", imageStream);
 
                 StreamReader reader = new StreamReader(responseStream);

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 
 
 namespace Aspose.Cloud.Cells
@@ -19,7 +15,7 @@ namespace Aspose.Cloud.Cells
         public ChartEditor(string fileName,string worksheetName)
         {
             FileName = fileName;
-            WorkSheetName = worksheetName;
+            WorksheetName = worksheetName;
 
         }
 
@@ -29,7 +25,7 @@ namespace Aspose.Cloud.Cells
             {
                 //build URI to get page count
                 string strURI = Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/charts?chartType=" + chartType + "&upperLeftRow=" + upperLeftRow +
+                strURI += "/worksheets/" + WorksheetName + "/charts?chartType=" + chartType + "&upperLeftRow=" + upperLeftRow +
                     "&upperLeftColumn=" + upperLeftColumn + "&lowerRightRow=" + lowerRightRow + "&lowerRightColumn=" + lowerRightColumn;
                 
                 string signedURI = Utils.Sign(strURI);
@@ -65,7 +61,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts/" + chartIndex;
+            strURI += "/worksheets/" + WorksheetName + "/charts/" + chartIndex;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -94,7 +90,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts/" + chartIndex + "/chartArea";
+            strURI += "/worksheets/" + WorksheetName + "/charts/" + chartIndex + "/chartArea";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -121,7 +117,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts/" + chartIndex + "/chartArea/fillFormat";
+            strURI += "/worksheets/" + WorksheetName + "/charts/" + chartIndex + "/chartArea/fillFormat";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -148,7 +144,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts/" + chartIndex + "/chartArea/border";
+            strURI += "/worksheets/" + WorksheetName + "/charts/" + chartIndex + "/chartArea/border";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -175,7 +171,7 @@ namespace Aspose.Cloud.Cells
         /// <summary>
         /// 
         /// </summary>
-        public string WorkSheetName { get; set; }
+        public string WorksheetName { get; set; }
 
     }
 }

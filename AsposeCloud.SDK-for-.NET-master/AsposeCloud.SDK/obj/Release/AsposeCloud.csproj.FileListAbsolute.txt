@@ -2,3 +2,8 @@ C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\Saaspose.SDK\bin\Release\AsposeCloud.SDK.pdb
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\Saaspose.SDK\obj\Release\AsposeCloud.SDK.dll
 C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\Saaspose.SDK\obj\Release\AsposeCloud.SDK.pdb
+C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Release\AsposeCloud.SDK.dll
+C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\bin\Release\AsposeCloud.SDK.pdb
+C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Release\AsposeCloud.csprojResolveAssemblyReference.cache
+C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Release\AsposeCloud.SDK.dll
+C:\Users\Madiha Zeeshan\Desktop\Saaspose.SDK-for-.NET-master\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\obj\Release\AsposeCloud.SDK.pdb

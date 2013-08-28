@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
-using Aspose.Cloud.Words;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 
 namespace Aspose.Cloud.Words
 {
@@ -360,19 +358,20 @@ namespace Aspose.Cloud.Words
                 return false;
             }
         }
-        public Boolean PostBookMark(string Name, string Text)
+        /***********Method  PostBookMark Added by:Zeeshan*******/
+        public Boolean PostBookMark(string name, string text)
         {
             try
             {
                 //build URI to get Image
-                string strURI = Product.BaseProductUri + "/words/" + FileName + "/bookmarks/" + Name;
+                string strURI = Product.BaseProductUri + "/words/" + FileName + "/bookmarks/" + name;
 
                 string signedURI = Utils.Sign(strURI);
 
                 //serialize the JSON request content
                 BookmarkData bookmarkData = new BookmarkData();
-                bookmarkData.Name = Name;
-                bookmarkData.Text = Text;
+                bookmarkData.Name = name;
+                bookmarkData.Text = text;
 
                 string strJSON = JsonConvert.SerializeObject(bookmarkData);
 
@@ -397,7 +396,8 @@ namespace Aspose.Cloud.Words
                 return false;
             }
         }
-        public string GetBookMarkData(string Name)
+        /***********Method  GetBookMark Added by:Zeeshan*******/
+        public string GetBookMark(string name)
         {
             try
             {
@@ -407,7 +407,7 @@ namespace Aspose.Cloud.Words
 
                 //build URI
                 string strURI = Product.BaseProductUri + "/words/" + FileName;
-                strURI += "/bookmarks/" + Name;
+                strURI += "/bookmarks/" + name;
 
                 //sign URI
                 string signedURI = Utils.Sign(strURI);
@@ -432,7 +432,8 @@ namespace Aspose.Cloud.Words
                 throw new Exception(ex.Message);
             }
         }
-        public int splitDocument(string format, string folder, int from, int to)
+        /***********Method  SplitDocument Added by:Zeeshan*******/
+        public int SplitDocument(SplitDocumentFormats format, string folder, int from, int to)
         {
             try
             {
@@ -443,7 +444,7 @@ namespace Aspose.Cloud.Words
                 //build URI
                 string strURI = Product.BaseProductUri + "/words/" + FileName;
                 strURI += "/split?" +
-                    (format == "" ? "" : "format=" + format) +
+                    (format == null ? "" : "format=" + format.ToString()) +
                     (folder == "" ? "" : "&folder=" + folder) +
                     (from == 0 ? "" : "&from=" + from.ToString()) +
                     (to == 0 ? "" : "&to=" + to.ToString());
@@ -470,15 +471,16 @@ namespace Aspose.Cloud.Words
                 throw new Exception(ex.Message);
             }
         }
-        public bool SaveAsTiff(string resultFile, bool useAntiAliasing, bool useHighQualityRendering, int pageCount, int pageIndex, int resolution, string tiffCompression, string folder)
+        /***********Method  ProtectWorksheet Added by:Zeeshan*******/
+        public bool SaveAsTiff(string resultFile, SaveAsTiffOptions saveAsTiffOptions, string folder)
         {
             try
             {
                 //build URI to get Image
                 string strURI = Product.BaseProductUri + "/words/" + FileName + "/SaveAs/tiff?";
 
-                strURI += "resultFile=" + resultFile + "&useAntiAliasing=" + (useAntiAliasing ? "True" : "False") + "&useHighQualityRendering=" + (useHighQualityRendering ? "True" : "False") +
-                    "&pageCount=" + pageCount.ToString() + "&pageIndex=" + pageIndex.ToString() + "&resolution=" + resolution + "&tiffCompression=" + tiffCompression + "&folder=" + folder;
+                strURI += "resultFile=" + resultFile + "&useAntiAliasing=" + (saveAsTiffOptions.UseAntiAliasing ? "True" : "False") + "&useHighQualityRendering=" + (saveAsTiffOptions.UseHighQualityRendering ? "True" : "False") +
+                    "&pageCount=" + saveAsTiffOptions.PageCount.ToString() + "&pageIndex=" + saveAsTiffOptions.PageIndex.ToString() + "&resolution=" + saveAsTiffOptions.Resolution + "&tiffCompression=" + saveAsTiffOptions.TiffCompression + "&folder=" + folder;
 
                 string signedURI = Utils.Sign(strURI);
 

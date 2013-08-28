@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
+﻿using Aspose.Cloud.Common;
 using Aspose.Cloud.Storage;
-using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 
 namespace Aspose.Cloud.Slides
@@ -160,33 +160,105 @@ namespace Aspose.Cloud.Slides
         /// <returns></returns>
         public List<Shape> GetShapes(int slideNumber)
         {
-            //build URI to get shapes
-            string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/shapes";
-            string signedURI = Utils.Sign(strURI);
-
-            Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
-
-            StreamReader reader = new StreamReader(responseStream);
-            string strJSON = reader.ReadToEnd();
-
-            //Parse the json string to JObject
-            JObject parsedJSON = JObject.Parse(strJSON);
-
-            //Deserializes the JSON to a object. 
-            ShapesResponse shapesResponse = JsonConvert.DeserializeObject<ShapesResponse>(parsedJSON.ToString());
-
-            List<Shape> shapes = new List<Shape>();
-            foreach (ShapeURI shapeURI in shapesResponse.ShapeList.Links)
+            try
             {
+                //build URI to get shapes
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/shapes";
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
                 //Parse the json string to JObject
-                JObject parsedShapeJSON = ProcessURI(shapeURI.Uri.Href);
+                JObject parsedJSON = JObject.Parse(strJSON);
 
                 //Deserializes the JSON to a object. 
-                ShapeResponse shapeResponse = JsonConvert.DeserializeObject<ShapeResponse>(parsedShapeJSON.ToString());
-                shapes.Add(shapeResponse.Shape);
-            }
+                ShapesResponse shapesResponse = JsonConvert.DeserializeObject<ShapesResponse>(parsedJSON.ToString());
 
-            return shapes;
+                List<Shape> shapes = new List<Shape>();
+                foreach (ShapeURI shapeURI in shapesResponse.ShapeList.ShapesLinks)
+                {
+                    //Parse the json string to JObject
+                    JObject parsedShapeJSON = ProcessURI(shapeURI.Uri.Href);
+
+                    //Deserializes the JSON to a object. 
+                    ShapeResponse shapeResponse = JsonConvert.DeserializeObject<ShapeResponse>(parsedShapeJSON.ToString());
+                    shapes.Add(shapeResponse.Shape);
+                }
+
+                return shapes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets specific shape from the specified slide
+        /// </summary>
+        /// <param name="slideNumber"></param>
+        /// <returns></returns>
+        public Shape GetShape(int slideNumber,int shapeNumber)
+        {
+            try
+            {
+                //build URI to get shapes
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/shapes/" + shapeNumber;
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                ShapeResponse shapesResponse = JsonConvert.DeserializeObject<ShapeResponse>(parsedJSON.ToString());
+
+
+                return shapesResponse.Shape;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets all shapes from the specified slide and fill
+        /// </summary>
+        /// 
+        /// <returns></returns>
+        public void GetSolidFill(int slideNumber,int shapeNumber)
+        {
+            try
+            {
+                //build URI to get shapes
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/shapes/" + shapeNumber + "/fill";
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                SolidFillResponse solidFillResponse = JsonConvert.DeserializeObject<SolidFillResponse>(parsedJSON.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -224,7 +296,7 @@ namespace Aspose.Cloud.Slides
             ShapesResponse shapesResponse = JsonConvert.DeserializeObject<ShapesResponse>(parsedJSON.ToString());
 
             List<Shape> shapes = new List<Shape>();
-            foreach (ShapeURI shapeURI in shapesResponse.ShapeList.Links)
+            foreach (ShapeURI shapeURI in shapesResponse.ShapeList.ShapesLinks)
             {
                 StringBuilder uri = new StringBuilder(shapeURI.Uri.Href +
                 (string.IsNullOrEmpty(folderName) ? "" : "?folder=" + folderName));
@@ -408,6 +480,31 @@ namespace Aspose.Cloud.Slides
             //Deserializes the JSON to a object. 
             FormatSchemeResponse formatSchemeResponse = JsonConvert.DeserializeObject<FormatSchemeResponse>(parsedJSON.ToString());
             FormatScheme formatscheme = formatSchemeResponse.FormatScheme;
+        }
+
+        public void GetLineFormat(int slideNumber,int shapeNumber)
+        {
+            try
+            {
+                //build URI to get format scheme
+                string strURI = Product.BaseProductUri + "/slides/" + FileName + "/slides/" + slideNumber + "/shapes/"+shapeNumber+"/line-format";
+
+                string signedURI = Utils.Sign(strURI);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "GET");
+
+                StreamReader reader = new StreamReader(responseStream);
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                FormatSchemeResponse formatSchemeResponse = JsonConvert.DeserializeObject<FormatSchemeResponse>(parsedJSON.ToString());
+                FormatScheme formatscheme = formatSchemeResponse.FormatScheme;
+            }
+            catch (Exception ex)
+            { throw ex; }
         }
 
         /// <summary>

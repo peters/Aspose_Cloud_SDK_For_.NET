@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Aspose.Cloud.Common;
 using System.Collections.Generic;
-using System.Text;
-using Aspose.Cloud.Common;
 
 namespace Aspose.Cloud.BarCode
 {

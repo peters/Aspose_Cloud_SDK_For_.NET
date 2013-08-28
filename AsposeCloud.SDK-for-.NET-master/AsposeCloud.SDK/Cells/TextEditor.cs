@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 
 namespace Aspose.Cloud.Cells
@@ -110,7 +107,7 @@ namespace Aspose.Cloud.Cells
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public List<TextItem> FindText(string WorkSheetName,string text)
+        public List<TextItem> FindText(string WorksheetName,string text)
         {
             //check whether file is set or not
             if (FileName == "")
@@ -118,7 +115,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/findText?text=" + text;
+            strURI += "/worksheets/" + WorksheetName + "/findText?text=" + text;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -168,7 +165,7 @@ namespace Aspose.Cloud.Cells
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<TextItem> GetTextItems(string WorkSheetName)
+        public List<TextItem> GetTextItems(string WorksheetName)
         {
             //check whether file is set or not
             if (FileName == "")
@@ -176,7 +173,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/textItems";
+            strURI += "/worksheets/" + WorksheetName + "/textItems";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);

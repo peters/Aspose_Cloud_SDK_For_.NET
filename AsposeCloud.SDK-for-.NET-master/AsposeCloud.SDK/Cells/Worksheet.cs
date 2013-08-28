@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Aspose.Cloud.Common;
-using Aspose.Cloud.Storage;
-using System.IO;
-using Newtonsoft.Json.Linq;
+﻿using Aspose.Cloud.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 
 namespace Aspose.Cloud.Cells
 {
@@ -19,7 +17,7 @@ namespace Aspose.Cloud.Cells
         public Worksheet(string fileName, string worksheetName)
         {
             FileName = fileName;
-            WorkSheetName = worksheetName;
+            WorksheetName = worksheetName;
 
         }
 
@@ -42,7 +40,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -69,7 +67,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/rows?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells/rows?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -96,7 +94,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/columns?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells/columns?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -129,7 +127,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -162,7 +160,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -195,7 +193,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -226,7 +224,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/autoshapes";
+            strURI += "/worksheets/" + WorksheetName + "/autoshapes";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -258,7 +256,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/autoshapes/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/autoshapes/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -291,7 +289,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/" + cellName;
+            strURI += "/worksheets/" + WorksheetName + "/cells/" + cellName;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -323,7 +321,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/" + cellName + "/style";
+            strURI += "/worksheets/" + WorksheetName + "/cells/" + cellName + "/style";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -356,7 +354,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/" + cellName + "/style";
+            strURI += "/worksheets/" + WorksheetName + "/cells/" + cellName + "/style";
 
             string strJSON = JsonConvert.SerializeObject(style);
 
@@ -391,7 +389,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/charts/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -423,7 +421,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/hyperlinks/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/hyperlinks/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -455,7 +453,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/comments/" + cellName;
+            strURI += "/worksheets/" + WorksheetName + "/comments/" + cellName;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -487,7 +485,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/oleobjects/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/oleobjects/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -519,7 +517,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/pictures/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/pictures/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -562,7 +560,7 @@ namespace Aspose.Cloud.Cells
             {
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/pictures?upperLeftRow=" +
+                strURI += "/worksheets/" + WorksheetName + "/pictures?upperLeftRow=" +
                     upperLeftRow + "&upperLeftColumn=" + upperLeftColumn +
                     "&lowerRightRow=" + lowerRightRow + "&lowerRightColumn=" + lowerRightColumn +
                     "&picturePath=" + picturePath;
@@ -578,7 +576,7 @@ namespace Aspose.Cloud.Cells
                 {
                     //build URI
                     string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                    strURI += "/worksheets/" + WorkSheetName + "/pictures?upperLeftRow=" +
+                    strURI += "/worksheets/" + WorksheetName + "/pictures?upperLeftRow=" +
                         upperLeftRow + "&upperLeftColumn=" + upperLeftColumn +
                         "&lowerRightRow=" + lowerRightRow + "&lowerRightColumn=" + lowerRightColumn;
 
@@ -616,7 +614,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/validations/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/validations/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -648,7 +646,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/mergedCells/" + index;
+            strURI += "/worksheets/" + WorksheetName + "/mergedCells/" + index;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -679,7 +677,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/mergedCells";
+            strURI += "/worksheets/" + WorksheetName + "/mergedCells";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -710,7 +708,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/validations";
+            strURI += "/worksheets/" + WorksheetName + "/validations";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -741,7 +739,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/pictures";
+            strURI += "/worksheets/" + WorksheetName + "/pictures";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -772,7 +770,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/oleobjects";
+            strURI += "/worksheets/" + WorksheetName + "/oleobjects";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -803,7 +801,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/charts";
+            strURI += "/worksheets/" + WorksheetName + "/charts";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -834,7 +832,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/comments";
+            strURI += "/worksheets/" + WorksheetName + "/comments";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -865,7 +863,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/hyperlinks";
+            strURI += "/worksheets/" + WorksheetName + "/hyperlinks";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -897,7 +895,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/visible?isVisible=false";
+            strURI += "/worksheets/" + WorksheetName + "/visible?isVisible=false";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -931,7 +929,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/visible?isVisible=true";
+            strURI += "/worksheets/" + WorksheetName + "/visible?isVisible=true";
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -959,7 +957,7 @@ namespace Aspose.Cloud.Cells
             try
             {
                 //build URI to get page count
-                string strURI = Product.BaseProductUri + "/cells/" + FileName + "/worksheets/" + WorkSheetName + "/position";
+                string strURI = Product.BaseProductUri + "/cells/" + FileName + "/worksheets/" + WorksheetName + "/position";
                 string signedURI = Utils.Sign(strURI);
 
                 //serialize the JSON request content
@@ -1004,7 +1002,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/formulaResult?formula=" + formula;
+            strURI += "/worksheets/" + WorksheetName + "/formulaResult?formula=" + formula;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -1030,7 +1028,7 @@ namespace Aspose.Cloud.Cells
             {
                 //build URI to get page count
                 string strURI = Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/cells/" + cellName + "?value=" + value + "&type=" + valueType;
+                strURI += "/worksheets/" + WorksheetName + "/cells/" + cellName + "?value=" + value + "&type=" + valueType;
 
 
                 string signedURI = Utils.Sign(strURI);
@@ -1066,7 +1064,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/rows?offset=" + offset + "&count=" + count;
+            strURI += "/worksheets/" + WorksheetName + "/cells/rows?offset=" + offset + "&count=" + count;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -1084,7 +1082,234 @@ namespace Aspose.Cloud.Cells
 
             return worksheetResponse.Rows.RowCount;
         }
+        /***********Method  HideRows Added by:Zeeshan*******/
+        public bool HideRows(int startrow, int totalRows)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
 
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.hiding + "&startrow=" + startrow.ToString() + "&totalRows=" + totalRows.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /***********Method  UnhideRows Added by:Zeeshan*******/
+        public bool UnhideRows(int startrow, int totalRows)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.unhiding + "&startrow=" + startrow.ToString() + "&totalRows=" + totalRows.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /***********Method  GroupingRows Added by:Zeeshan*******/
+        public bool GroupingRows(int firstIndex, int lastIndex, bool hide)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.grouping + "&firstIndex=" + firstIndex.ToString() + "&lastIndex=" + lastIndex.ToString() + "&hide=" + (hide ? "true" : "false");
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /***********Method  UngroupingRows Added by:Zeeshan*******/
+        public bool UnGroupingRows(int firstIndex, int lastIndex)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.ungrouping + "&firstIndex=" + firstIndex.ToString() + "&lastIndex=" + lastIndex.ToString() ;
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /***********Method  AutoFitRows Added by:Zeeshan*******/
+        public bool AutoFitRows(int firstIndex, int lastIndex)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.autofit + "&firstIndex=" + firstIndex.ToString() + "&lastIndex=" + lastIndex.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /***********Method  CopyRows Added by:Zeeshan*******/
+        public bool CopyRows(int sourceRowIndex, int destinationRowIndex, int rowNumber)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows?operate=" + RowsOperateOption.copy + "&sourceRowIndex="+sourceRowIndex.ToString()+"&destinationRowIndex="+destinationRowIndex.ToString()+"&rowNumber="+rowNumber.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public Row GetRow(int rowIndex)
         {
             //check whether file is set or not
@@ -1093,7 +1318,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/rows/" + rowIndex;
+            strURI += "/worksheets/" + WorksheetName + "/cells/rows/" + rowIndex;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -1120,7 +1345,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/cells/rows/" + rowIndex;
+            strURI += "/worksheets/" + WorksheetName + "/cells/rows/" + rowIndex;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -1141,6 +1366,83 @@ namespace Aspose.Cloud.Cells
             else
                 return false;
         }
+        /***********Method EditRow Added by:Zeeshan*******/
+        public bool EditRow(int rowIndex, int height)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows/" + rowIndex.ToString() + "?Height=" + height.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "POST"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /***********Method AddRow Added by:Zeeshan*******/
+        public bool AddRow(int rowIndex)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
+                strURI += "/worksheets/" + WorksheetName + "/cells/rows/" + rowIndex.ToString();
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                StreamReader reader = new StreamReader(Utils.ProcessCommand(signedURI, "PUT"));
+
+                //further process JSON response
+                string strJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse docResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (docResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
 
         public bool SortData(DataSort dataSort, string cellArea)
         {
@@ -1148,7 +1450,7 @@ namespace Aspose.Cloud.Cells
             {
                 //build URI
                 string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-                strURI += "/worksheets/" + WorkSheetName + "/sort?" + cellArea;
+                strURI += "/worksheets/" + WorksheetName + "/sort?" + cellArea;
 
                 string signedURI = Utils.Sign(strURI);
 
@@ -1182,7 +1484,7 @@ namespace Aspose.Cloud.Cells
 
             //build URI
             string strURI = Aspose.Cloud.Common.Product.BaseProductUri + "/cells/" + FileName;
-            strURI += "/worksheets/" + WorkSheetName + "/columns/" + columnIndex;
+            strURI += "/worksheets/" + WorksheetName + "/columns/" + columnIndex;
 
             //sign URI
             string signedURI = Utils.Sign(strURI);
@@ -1200,10 +1502,116 @@ namespace Aspose.Cloud.Cells
 
             return columnsResponse.Column;
         }
+
+        /***********Method  ProtectWorksheet Added by:Zeeshan*******/
+        public bool ProtectWorksheet(string password, WorksheetProtectionType type, ProtectionOptions opts)//WorksheetProtection worksheetprotectrequest)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Product.BaseProductUri + "/cells/" + FileName + "/worksheets/" + WorksheetName + "/protection";
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                //serialize the JSON request content
+                WorksheetProtectionRequest protectionRequest = new WorksheetProtectionRequest();
+                protectionRequest.AllowDeletingColumn = opts.AllowDeletingColumn;
+                protectionRequest.AllowDeletingRow = opts.AllowDeletingRow;
+                protectionRequest.AllowEditArea = opts.AllowEditArea;
+                protectionRequest.AllowFiltering = opts.AllowFiltering;
+                protectionRequest.AllowFormattingCell = opts.AllowFormattingCell;
+                protectionRequest.AllowFormattingColumn = opts.AllowFormattingColumn;
+                protectionRequest.AllowFormattingRow = opts.AllowFormattingRow;
+                protectionRequest.AllowInsertingColumn = opts.AllowInsertingColumn;
+                protectionRequest.AllowInsertingHyperlink = opts.AllowInsertingHyperlink;
+                protectionRequest.AllowInsertingRow = opts.AllowInsertingRow;
+                protectionRequest.AllowSelectingLockedCell = opts.AllowSelectingLockedCell;
+                protectionRequest.AllowSelectingUnlockedCell = opts.AllowSelectingUnlockedCell;
+                protectionRequest.AllowSorting = opts.AllowSorting;
+                protectionRequest.AllowUsingPivotTable = opts.AllowUsingPivotTable;
+                protectionRequest.Password = password;
+                protectionRequest.ProtectionType = type.ToString();
+
+                string strJSON = JsonConvert.SerializeObject(protectionRequest);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "PUT", strJSON);
+                StreamReader reader = new StreamReader(responseStream);
+
+                //further process JSON response
+                string strResponseJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strResponseJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        /***********Method UnProtectWorksheet Added by:Zeeshan*******/
+        public bool UnProtectWorksheet(string password)
+        {
+            try
+            {
+                //check whether file is set or not
+                if (FileName == "")
+                    throw new Exception("No file name specified");
+
+                //build URI
+                string strURI = Product.BaseProductUri + "/cells/" + FileName + "/worksheets/" + WorksheetName + "/protection";
+
+                //sign URI
+                string signedURI = Utils.Sign(strURI);
+
+                //serialize the JSON request content
+
+
+                string strJSON = JsonConvert.SerializeObject(password);
+
+                Stream responseStream = Utils.ProcessCommand(signedURI, "DELETE", strJSON);
+                StreamReader reader = new StreamReader(responseStream);
+
+                //further process JSON response
+                string strResponseJSON = reader.ReadToEnd();
+
+                //Parse the json string to JObject
+                JObject parsedJSON = JObject.Parse(strResponseJSON);
+
+                //Deserializes the JSON to a object. 
+                BaseResponse baseResponse = JsonConvert.DeserializeObject<BaseResponse>(parsedJSON.ToString());
+
+                if (baseResponse.Code == "200" && baseResponse.Status == "OK")
+                    return true;
+                else
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
         /// <summary>
         /// 
         /// </summary>
-        public string WorkSheetName { get; set; }
+        public string WorksheetName { get; set; }
 
         /// <summary>
         /// Workbook name
