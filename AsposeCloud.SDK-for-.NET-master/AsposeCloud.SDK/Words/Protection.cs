@@ -13,6 +13,7 @@ namespace Aspose.Cloud.Words
         {
             FileName = fileName;
         }
+
         /***********Method  GetProtection Added by:Zeeshan*******/
         public string GetProtection()
         { 
