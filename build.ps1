@@ -121,7 +121,7 @@ function Build-Nupkg {
     # Support for multiple build runners
     if(Test-Path env:BuildRunner) {
 
-        $buildRunner = Get-Variable BuildRunner -Scope Global
+        $buildRunner = Get-Content env:BuildRunner
 
         switch -Wildcard ($buildRunner.ToString().ToLower()) {
             "myget" {
