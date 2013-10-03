@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AsposeCloud.SDK</id>
+    <version>$version$</version>
+    <title>AsposeCloud.SDK for .NET</title>
+    <authors>Aspose</authors>
+    <owners>Aspose</owners>
+	<licenseUrl>http://www.aspose.com/corporate/purchase/end-user-license-agreement.aspx</licenseUrl>
+	<projectUrl>http://www.aspose.com/cloud/total-api.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Aspose for Cloud is a cloud-based document generation, conversion and automation platform for developers. 
+	Aspose for Cloud’s REST APIs gives developers on all platforms total control over documents and file formats. 
+	It interoperates seamlessly with other cloud services.</description>
+    <copyright>Copyright 2013 Aspose</copyright>
+    <tags>Aspose.Cloud SDK PDF XFA XPS TIFF PCL SVG HTML XML XSL-FO FDF XFDF PDF/A form Portfolio EPUB to PDF DOC DOCX</tags>
+  </metadata>
+  <files>
+	 <file src="$bin$\$configuration$\v4.0\AsposeCloud.SDK.dll" target="lib\net40" />
+	 <file src="$bin$\$configuration$\v4.5\AsposeCloud.SDK.dll" target="lib\net45" />
+	 <file src="$bin$\$configuration$\v4.5.1\AsposeCloud.SDK.dll" target="lib\net451" />
+  </files>
+</package>
