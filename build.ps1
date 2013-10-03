@@ -174,7 +174,7 @@ function Build-Project {
 
         Create-Folder-Safe -folder $platformOutputFolder
 
-        Write-Diagnostic "Build: $projectName ($platfrom / $config - $targetFramework)"
+        Write-Diagnostic "Build: $projectName ($platform / $config - $targetFramework)"
 
         & "$(Get-Content env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" `
             $projectPath `
