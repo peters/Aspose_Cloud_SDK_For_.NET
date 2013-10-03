@@ -95,6 +95,7 @@ function Build-Nupkg {
         [string]$rootFolder = $(throw "-rootFolder is required."),
         [string]$project = $(throw "-project is required."),
         [string]$nugetExe = $(throw "-nugetExe is required."),
+        [string]$nuspecFilename = $null,
         [string]$outputFolder = $(throw "-outputFolder is required."),
         [string]$config = $(throw "-config is required."),
         [string]$version = $(throw "-version is required."),
@@ -102,17 +103,23 @@ function Build-Nupkg {
     )
 
     $outputFolder = Join-Path $outputFolder "$config"
-    $nuspecFilename = [System.IO.Path]::GetFullPath($project) -ireplace ".csproj$", ".nuspec"
+    $projectName = [System.IO.Path]::GetFileName($project) -ireplace ".csproj$", ""
+
+    if(-Not (Test-Path -Path $nuspecFilename)) {
+        $nuspecFilename = [System.IO.Path]::GetFullPath($project) -ireplace ".csproj$", ".nuspec"
+    }
+
+    $currentFolder = [System.IO.Path]::GetDirectoryName($nuspecFilename)
 
     if(-not (Test-Path $nuspecFilename)) {
         Die("Could not find nuspec: $nuspecFilename")
     }
 
-    Write-Diagnostic "Creating nuget package for platform $platform"
+    Write-Diagnostic "Nupkg: $projectName ($platform / $config)"
 
     # http://docs.nuget.org/docs/reference/command-line-reference#Pack_Command
     . $nugetExe pack $nuspecFilename -OutputDirectory $outputFolder -Symbols -NonInteractive `
-        -Properties "Configuration=$config;Bin=$outputFolder;Platform=$platform" -Version $version
+        -Properties "Configuration=$config;Bin=$outputFolder;Platform=$platform;CurrentFolder=$currentFolder" -Version $version
 
     if($LASTEXITCODE -ne 0) {
         Die("Build failed: $projectName")
