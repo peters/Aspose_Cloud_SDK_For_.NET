@@ -11,11 +11,13 @@ param(
 
     [string[]]$platforms = @("AnyCpu"),
 
-    [ValidateSet("clean", "rebuild", "build")]
+    [ValidateSet("rebuild", "build")]
     [string]$target = "rebuild",
 
     [ValidateSet("quiet", "minimal", "normal", "detailed", "diagnostic")]
-    [string]$verbosity = "minimal"
+    [string]$verbosity = "minimal",
+
+    [bool]$alwaysClean = $true
 
 )
 
@@ -203,6 +205,7 @@ function Build-Solution {
         [string]$version = $(throw "-version is required"),
         [string]$config = $(throw "-config is required."),
         [string]$target = $(throw "-target is required."),
+        [bool]$alwaysClean = $(throw "-alwaysclean is required"),
         [string[]]$targetFrameworks = $(throw "-targetFrameworks is required."),
         [string[]]$projects = $(throw "-projects is required."),
         [string[]]$platforms = $(throw "-platforms is required.")
@@ -215,7 +218,10 @@ function Build-Solution {
     $solutionFolder = [System.IO.Path]::GetDirectoryName($solutionFile)
     $nugetExe = if(Test-Path Env:NuGet) { Get-Content env:NuGet } else { Join-Path $solutionFolder ".nuget\nuget.exe" }
 
-    Build-Clean -root $solutionFolder
+    if($alwaysClean) {
+        Build-Clean -root $solutionFolder
+    }
+
     Build-Bootstrap -solutionFile $solutionFile -nugetExe $nugetExe
 
     $projects | ForEach-Object {
@@ -278,4 +284,5 @@ Build-Solution -solutionFile $rootFolder\AsposeCloud.SDK-for-.NET-master\AsposeC
     -version $currentVersion `
     -config $config `
     -target $target `
-    -targetFrameworks $targetFrameworks
+    -targetFrameworks $targetFrameworks `
+    -alwaysClean $alwaysClean
