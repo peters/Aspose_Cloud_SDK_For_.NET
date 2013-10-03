@@ -96,7 +96,7 @@ function Build-Nupkg {
         [string]$outputFolder = $(throw "-outputFolder is required."),
         [string]$config = $(throw "-config is required."),
         [string]$version = $(throw "-version is required."),
-        [string[]]$platform = $(throw "-platform is required.")
+        [string]$platform = $(throw "-platform is required.")
     )
 
     $outputFolder = Join-Path $outputFolder "$config"
@@ -106,7 +106,7 @@ function Build-Nupkg {
         Die("Could not find nuspec: $nuspecFilename")
     }
 
-    Write-Diagnostic "Creating nuget package for platform " $platform
+    Write-Diagnostic "Creating nuget package for platform $platform"
 
     # http://docs.nuget.org/docs/reference/command-line-reference#Pack_Command
     . $nugetExe pack $nuspecFilename -OutputDirectory $outputFolder -Symbols -NonInteractive `
