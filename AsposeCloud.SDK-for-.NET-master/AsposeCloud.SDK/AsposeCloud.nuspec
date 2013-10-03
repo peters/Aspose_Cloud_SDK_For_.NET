@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>AsposeCloud.SDK.$platform$</id>
+    <id>AsposeCloud.SDK</id>
     <version>$version$</version>
     <title>AsposeCloud.SDK for .NET</title>
     <authors>Aspose</authors>
