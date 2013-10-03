@@ -1,14 +1,15 @@
 # http://docs.myget.org/docs/reference/build-services-build.bat-examples
+# http://blog.myget.org/post/2013/03/22/Whats-new-in-Build-Services.aspx
 
 param(
 
-    # http://semver.org/
-    [ValidatePattern("^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")]
     [string]$packageVersion = $null,
 
     [string]$config = "Release",
 
     [string[]]$targetFrameworks = @("v4.0", "v4.5", "v4.5.1"),
+
+    [string[]]$platforms = @("AnyCpu"),
 
     [ValidateSet("clean", "rebuild", "build")]
     [string]$target = "rebuild",
@@ -37,17 +38,28 @@ function Die([string]$message, [object[]]$output) {
 	exit 1
 }
 
+function Create-Folder-Safe {
+    param(
+        [string]$folder = $(throw "-folder is required.")
+    )
+
+    if(-not (Test-Path $folder)) {
+        [System.IO.Directory]::CreateDirectory($folder)
+    }
+
+}
+
 # Build
 
 function Build-Clean {
 	param(
-	    [string]$root = $(throw "-Root is required."),
+	    [string]$rootFolder = $(throw "-rootFolder is required."),
         [string]$folders = "bin,obj"
     )
 
     Write-Diagnostic "Build: Clean"
 
-    Get-ChildItem $root -Include $folders -Recurse | ForEach-Object {
+    Get-ChildItem $rootFolder -Include $folders -Recurse | ForEach-Object {
        Remove-Item $_.fullname -Force -Recurse 
     }
 
@@ -78,43 +90,54 @@ function Build-Bootstrap {
 
 function Build-Nupkg {
     param(
-        [string]$root = $(throw "-root is required."),
+        [string]$rootFolder = $(throw "-rootFolder is required."),
         [string]$project = $(throw "-project is required."),
         [string]$nugetExe = $(throw "-nugetExe is required."),
         [string]$outputFolder = $(throw "-outputFolder is required."),
         [string]$config = $(throw "-config is required."),
-        [string]$version = $(throw "-version is required.")
+        [string]$version = $(throw "-version is required."),
+        [string[]]$platform = $(throw "-platform is required.")
     )
 
+    $outputFolder = Join-Path $outputFolder "$config"
     $nuspecFilename = [System.IO.Path]::GetFullPath($project) -ireplace ".csproj$", ".nuspec"
 
     if(-not (Test-Path $nuspecFilename)) {
         Die("Could not find nuspec: $nuspecFilename")
     }
 
+    Write-Diagnostic "Creating nuget package for platform " $platform
+
+    # http://docs.nuget.org/docs/reference/command-line-reference#Pack_Command
     . $nugetExe pack $nuspecFilename -OutputDirectory $outputFolder -Symbols -NonInteractive `
-        -Properties "Configuration=$config;Bin=$outputFolder" -Version $version
+        -Properties "Configuration=$config;Bin=$outputFolder;Platform=$platform" -Version $version
 
     if($LASTEXITCODE -ne 0) {
         Die("Build failed: $projectName")
     }
 
-    # MyGet support
-    if((Test-Path env:nuget) -and (Test-Path env:PackageVersion)) {
+    # Support for multiple build runners
+    if(Test-Path env:BuildRunner) {
 
-        $mygetBuildFolder = Join-Path $root "Build"
+        $buildRunner = Get-Variable BuildRunner -Scope Global
 
-        if(-not (Test-Path $mygetBuildFolder)) {
-            [System.IO.Directory]::CreateDirectory($mygetBuildFolder)
-        }
+        switch -Wildcard ($buildRunner.ToString().ToLower()) {
+            "myget" {
+                
+                $mygetBuildFolder = Join-Path $rootFolder "Build"
 
-        Get-ChildItem $outputFolder -filter *.nupkg | 
-        Where-Object { -not ($_.PSIsContainer) } | 
-        ForEach-Object {
-            $fullpath = $_.FullName
-            $filename = $_.Name
+                Create-Folder-Safe -folder $mygetBuildFolder
 
-            cp $fullpath $mygetBuildFolder\$filename
+                Get-ChildItem $outputFolder -filter *.nupkg | 
+                Where-Object { -not ($_.PSIsContainer) } | 
+                ForEach-Object {
+                    $fullpath = $_.FullName
+                    $filename = $_.Name
+
+                    cp $fullpath $mygetBuildFolder\$filename
+                }
+
+            }
         }
 
     }
@@ -128,16 +151,14 @@ function Build-Project {
         [string]$nugetExe = $(throw "-nugetExe is required."),
         [string]$config = $(throw "-config is required."),
         [string]$target = $(throw "-target is required."),
-        [string[]]$targetFrameworks = $(throw "-targetFrameworks is required.")
+        [string[]]$targetFrameworks = $(throw "-targetFrameworks is required."),
+        [string[]]$platform = $(throw "-platform is required.")
     )
 
     $projectPath = [System.IO.Path]::GetFullPath($project)
     $projectName = [System.IO.Path]::GetFileName($projectPath) -ireplace ".csproj$", ""
 
-
-    if(-not (Test-Path $outputFolder)) {
-        [System.IO.Directory]::CreateDirectory($outputFolder)
-    }
+    Create-Folder-Safe -folder $outputFolder
 
     if(-not (Test-Path $projectPath)) {
         Die("Could not find csproj: $projectPath")
@@ -147,18 +168,23 @@ function Build-Project {
         
         $targetFramework = $_
 
-        Write-Diagnostic "Build: $projectName ($Config - $targetFramework)"
+        $platformOutputFolder = Join-Path $outputFolder "$config\$targetFramework"
+
+        Create-Folder-Safe -folder $platformOutputFolder
+
+        Write-Diagnostic "Build: $projectName ($platfrom / $config - $targetFramework)"
 
         & "$(Get-Content env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" `
             $projectPath `
             /t:$target `
             /p:Configuration=$config `
-            /p:OutputPath=$outputFolder\$config\$targetFramework `
+            /p:OutputPath=$platformOutputFolder `
             /p:TargetFrameworkVersion=$targetFramework `
+            /p:Platform=$platform `
             /m `
             /v:M `
             /fl `
-            /flp:LogFile=$outputFolder\msbuild.log `
+            /flp:LogFile=$platformOutputFolder\msbuild.log `
             /nr:false
 
         if($LASTEXITCODE -ne 0) {
@@ -171,23 +197,23 @@ function Build-Project {
 
 function Build-Solution {
     param(
-        [string[]]$projects = $(throw "-projects is required."),
-        [string]$root = $(throw "-root is required."),
+        [string]$rootFolder = $(throw "-rootFolder is required."),
         [string]$solutionFile = $(throw "-solutionFile is required."),
         [string]$outputFolder = $(throw "-outputFolder is required."),
-        [string[]]$targetFrameworks = $(throw "-targetFrameworks is required."),
         [string]$version = $(throw "-version is required"),
         [string]$config = $(throw "-config is required."),
-        [string]$target = $(throw "-target is required.")
+        [string]$target = $(throw "-target is required."),
+        [string[]]$targetFrameworks = $(throw "-targetFrameworks is required."),
+        [string[]]$projects = $(throw "-projects is required."),
+        [string[]]$platforms = $(throw "-platforms is required.")
     )
 
     if(-not (Test-Path $solutionFile)) {
         Die("Could not find solution: $solutionFile")
     }
 
-    $outputFolder = Join-Path $outputFolder "$version"
     $solutionFolder = [System.IO.Path]::GetDirectoryName($solutionFile)
-    $nugetExe = if(Test-Path Env:nuget) { Get-Item -path env:nuget } else { Join-Path $solutionFolder ".nuget\nuget.exe" }
+    $nugetExe = if(Test-Path Env:NuGet) { Get-Content env:NuGet } else { Join-Path $solutionFolder ".nuget\nuget.exe" }
 
     Build-Clean -root $solutionFolder
     Build-Bootstrap -solutionFile $solutionFile -nugetExe $nugetExe
@@ -196,29 +222,32 @@ function Build-Solution {
 
         $project = $_
 
-        Build-Project -root $solutionFolder -project $project -outputFolder $outputFolder `
-            -nugetExe $nugetExe -target $target -config $config `
-            -targetFrameworks $targetFrameworks -version $version
+        $platforms | ForEach-Object {
+            $platform = $_
 
-        Build-Nupkg -root $root -project $project -nugetExe $nugetExe -outputFolder $outputFolder `
-            -config $config -version $version 
+            $buildOutputFolder = Join-Path $outputFolder "$version\$platform"
 
+            Build-Project -rootFolder $solutionFolder -project $project -outputFolder $buildOutputFolder `
+                -nugetExe $nugetExe -target $target -config $config `
+                -targetFrameworks $targetFrameworks -version $version -platform $platform
+
+            Build-Nupkg -rootFolder $rootFolder -project $project -nugetExe $nugetExe -outputFolder $buildOutputFolder `
+                -config $config -version $version -platform $platform
+
+        }
+        
     }
 
 }
 
 function TestRunner-Nunit {
     param(
-        [string[]]$projects = $(throw "-projects is required."),
         [string]$outputFolder = $(throw "-outputFolder is required."),
         [string]$config = $(throw "-config is required."),
-        [string]$target = $(throw "-target is required.")
+        [string]$target = $(throw "-target is required."),
+        [string[]]$projects = $(throw "-projects is required."),
+        [string[]]$platforms = $(throw "-platforms is required.")
     )
-
-    $outputFolder = Join-Path $outputFolder "$version"
-    $nunitExe = "tools\nunit\nunit-console.exe"
-
-    Write-Diagnostic ("Running nunit test suite: {0} project(s)" -f $projects.Count)
 
     Die("TODO")
 }
@@ -232,7 +261,7 @@ $config = $config.substring(0, 1).toupper() + $config.substring(1)
 $version = $config.trim()
 
 # Myget
-$currentVersion = if(Test-Path env:PackageVersion) { Get-Item -path env:PackageVersion } else { $packageVersion }
+$currentVersion = if(Test-Path env:PackageVersion) { Get-Content env:PackageVersion } else { $packageVersion }
 
 if($currentVersion -eq "") {
     Die("Package version cannot be empty")
@@ -243,9 +272,10 @@ Build-Solution -solutionFile $rootFolder\AsposeCloud.SDK-for-.NET-master\AsposeC
     -projects @( `
         "$rootFolder\AsposeCloud.SDK-for-.NET-master\AsposeCloud.SDK\AsposeCloud.csproj"
     ) `
-    -root $rootFolder `
-    -version $currentVersion `
+    -rootFolder $rootFolder `
     -outputFolder $outputFolder `
+    -platforms $platforms `
+    -version $currentVersion `
     -config $config `
     -target $target `
     -targetFrameworks $targetFrameworks
