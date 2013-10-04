@@ -16,8 +16,8 @@
     <tags>Aspose.Cloud SDK PDF XFA XPS TIFF PCL SVG HTML XML XSL-FO FDF XFDF PDF/A form Portfolio EPUB to PDF DOC DOCX</tags>
   </metadata>
   <files>
-	 <file src="$bin$\v4.0\AsposeCloud.SDK.dll" target="lib\net40" />
-	 <file src="$bin$\v4.5\AsposeCloud.SDK.dll" target="lib\net45" />
-	 <file src="$bin$\v4.5.1\AsposeCloud.SDK.dll" target="lib\net451" />
+	 <file src="$outputfolder$\v4.0\AsposeCloud.SDK.dll" target="lib\net40" />
+	 <file src="$outputfolder$\v4.5\AsposeCloud.SDK.dll" target="lib\net45" />
+	 <file src="$outputfolder$\v4.5.1\AsposeCloud.SDK.dll" target="lib\net451" />
   </files>
 </package>
