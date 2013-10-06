@@ -44,7 +44,6 @@ $platforms | ForEach-Object {
         -platforms $platforms `
         -targetFrameworks $targetFrameworks `
         -verbosity $verbosity `
-        -clean $clean `
         -config $config `
         -target $target `
         -version $packageVersion `
