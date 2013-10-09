@@ -1,4 +1,12 @@
+# MIT LICENSE
+
 # You can always find an updated version @ https://raw.github.com/peters/myget/master/myget.include.ps1
+
+# Heavily inspired by https://github.com/github/Shimmer
+
+# Prerequisites (should add .buildrunnertools to your .(git|hg)ignore)
+$buildRunnerToolsFolder = Split-Path $MyInvocation.MyCommand.Path
+$buildRunnerToolsFolder = Join-Path $buildRunnerToolsFolder ".buildtools"
 
 # Miscellaneous
 
@@ -100,13 +108,16 @@ function MyGet-BuildRunner {
 
 function MyGet-Package-Version {
     param(
-        [parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
-        [ValidatePattern("^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")]
-        [string]$packageVersion
+        [string]$packageVersion = ""
     )
+
+    $semverRegex = "^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$"
 
     $buildRunner = MyGet-BuildRunner
     if([String]::IsNullOrEmpty($buildRunner)) {
+        if(-not ($packageVersion -match $semverRegex)) {
+            Write-Error "Invalid package version input value"
+        }
         return $packageVersion
     }
 
@@ -115,39 +126,55 @@ function MyGet-Package-Version {
         return $packageVersion
     }
 
+    if(-not ($envPackageVersion -match $semverRegex)) {
+        Write-Error "Invalid package version value recieved from BuildRunner"
+    }
+
     return $envPackageVersion
 
 }
 
 function MyGet-NugetExe-Path {
-    
-    if (Test-Path env:myget) {
-        return Join-Path (Get-Content env:myget) "nuget\nuget.exe"
-    } elseif(Test-Path env:nuget) { 
-        return Get-Content env:nuget 
+    param(
+        [ValidateSet("2.5", "2.6", "2.7", "latest")]
+        [string] $version = "latest"
+    )
+
+    # Test environment variable
+    if((MyGet-BuildRunner -eq "myget") -and (Test-Path env:nuget)) {
+        return $env:nuget
     }
-    
-    MyGet-Die "Could not find nuget executable"
+
+    $nuget = Join-Path $buildRunnerToolsFolder "tools\nuget\$version\nuget.exe"
+    if (Test-Path $nuget) {
+        return $nuget
+    }
+
+    MyGet-Die "Could not find nuget executable: $nuget"
 }
 
 function MyGet-NunitExe-Path {
-    
-    if (Test-Path env:myget) {
-        return Join-Path (Get-Content env:myget) "nunit\nunit-console.exe"
-    } elseif(Test-Path env:nunit) { 
-        return Get-Content env:nunit 
+    param(
+        [ValidateSet("2.6.2", "latest")]
+        [string] $version = "latest"
+    )
+
+    $nunit = Join-Path $buildRunnerToolsFolder "tools\nunit\$version\nunit-console.exe"
+    if (Test-Path $nunit) {
+        return $nunit
     }
-
-    MyGet-Die "Could not find nunit executable"
-
+ 
 }
 
 function MyGet-XunitExe-Path {
+    param(
+        [ValidateSet("1.9.2", "latest")]
+        [string] $version = "latest"
+    )
 
-    if (Test-Path env:myget) {
-        return Join-Path (Get-Content env:myget) "xunit\xunit.console.clr4.x86.exe"
-    } elseif(Test-Path env:xunit) { 
-        return Get-Content env:xunit 
+    $xunit = Join-Path $buildRunnerToolsFolder "tools\xunit\$version\xunit.console.clr4.x86.exe"
+    if (Test-Path $xunit) {
+        return $xunit
     }
 
     MyGet-Die "Could not find xunit executable"
@@ -265,8 +292,6 @@ function MyGet-Build-Bootstrap {
 }
 
 function MyGet-Build-Nupkg {
-    # http://docs.nuget.org/docs/reference/command-line-reference#Pack_Command
-
     param(
         [parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
         [string]$rootFolder,
@@ -293,7 +318,11 @@ function MyGet-Build-Nupkg {
         [string]$nuspec = $null,
 
         [parameter(Position = 7, ValueFromPipeline = $true)]
-        [string]$nugetProperties = $null
+        [string]$nugetProperties = $null,
+
+        # http://docs.nuget.org/docs/reference/command-line-reference#Pack_Command
+        [parameter(Position = 8, ValueFromPipeline = $true)]
+        [string]$nugetPackOptions = $null
     )
     
     if(-not (Test-Path $project)) {
@@ -328,7 +357,7 @@ function MyGet-Build-Nupkg {
     MyGet-Write-Diagnostic "Nupkg: $projectName ($platform / $config)"
     
     . $nugetExe pack $nuspec -OutputDirectory $outputFolder -Symbols -NonInteractive `
-        -Properties "$nugetProperties" -Version $version
+        -Properties "$nugetProperties" -Version $version "$nugetPackOptions"
     
     if($LASTEXITCODE -ne 0) {
         MyGet-Die "Build failed: $projectName" -exitCode $LASTEXITCODE
@@ -488,7 +517,7 @@ function MyGet-Build-Solution {
         [string[]]$platforms,
 
         [parameter(Position = 9, ValueFromPipeline = $true)]
-        [string]$verbosity = "quiet",
+        [string]$verbosity = "Minimal",
         
         [parameter(Position = 10, ValueFromPipeline = $true)]
         [string[]]$excludeNupkgProjects = @(),
@@ -575,36 +604,9 @@ function MyGet-TestRunner-Nunit {
         [string[]]$projects
     )
 
-    MyGet-Write-Diagnostic "Running unit tests for: $csproj"
-    
-    $outputPath = [System.IO.Path]::GetTempFileName()
-    $consoleRunner = MyGet-NunitExe-Path
+    # see: https://github.com/github/Shimmer/blob/bfda6f3e13ab962ad63d81c661d43208070593e8/script/Run-UnitTests.ps1#L5
 
-    $args = $csproj
-    [object[]] $output = "$consoleRunner " + ($args -join " ")
-    $process = Start-Process -PassThru -NoNewWindow -RedirectStandardOutput $outputPath $consoleRunner ($args | %{ "`"$_`"" })
-
-    Wait-Process -InputObject $process -Timeout $timeoutDuration -ErrorAction SilentlyContinue
-    if ($process.HasExited) {
-        $output += Get-Content $outputPath
-        $exitCode = $process.ExitCode
-    } else {
-        $output += "Tests timed out. Backtrace:"
-        $output += Get-DotNetStack $process.Id
-        $exitCode = 9999
-    }
-
-    Stop-Process -InputObject $process
-    Remove-Item $outputPath
-
-    Write-Host $output
-
-    if(-not ($exitCode -eq 0)) {
-        MyGet-Die "Test failure. Exit code: $exitCode"
-    }
-
-    Write-Host "Test success."
-
+    MyGet-Die "Not implemented. Please contribute a PR @ https://www.github/peters/myget"
 }
 
 function MyGet-TestRunner-Xunit {
@@ -613,5 +615,17 @@ function MyGet-TestRunner-Xunit {
         [string[]]$projects
     ) 
     
+    # see: https://github.com/github/Shimmer/blob/bfda6f3e13ab962ad63d81c661d43208070593e8/script/Run-UnitTests.ps1#L5
+
     MyGet-Die "Not implemented. Please contribute a PR @ https://www.github/peters/myget"
+}
+
+if(-not (Test-Path $buildRunnerToolsFolder)) {
+
+    MyGet-Write-Diagnostic "Downloading prerequisites"
+
+	git clone --depth=1 https://github.com/myget/BuildTools.git $buildRunnerToolsFolder
+
+    $(Get-Item $buildRunnerToolsFolder).Attributes = ‘Hidden’
+
 }
